@@ -1,7 +1,21 @@
+const DEFAULT_URL = "https://victorsholdings.co.zw";
+
+/** Tolerates an empty env var, a missing https:// and a trailing slash. */
+function siteUrl() {
+  const raw = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+  if (!raw) return DEFAULT_URL;
+  const withProtocol = /^https?:\/\//.test(raw) ? raw : `https://${raw}`;
+  try {
+    return new URL(withProtocol).origin;
+  } catch {
+    return DEFAULT_URL;
+  }
+}
+
 export const site = {
   name: "Victors Holdings",
   tagline: "Building materials & construction solutions",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://victorsholdings.co.zw",
+  url: siteUrl(),
   location: "Harare, Zimbabwe",
   // TODO: replace with Victors' real WhatsApp number (digits only, international format)
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263000000000",
