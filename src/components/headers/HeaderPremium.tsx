@@ -5,7 +5,6 @@ import Link from "next/link";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import { nav, whatsappLink } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
-import { DesignSwitch } from "../DesignSwitch";
 import { IconArrow, IconClose } from "../icons";
 import { Logo } from "../Logo";
 
@@ -30,7 +29,6 @@ export function HeaderPremium({ products }: { products: MenuProduct[] }) {
               </Link>
             ))}
           </nav>
-          <DesignSwitch compact />
           <Link href="/contact" className="hp-quote">
             Get a quote
           </Link>
@@ -74,7 +72,6 @@ export function HeaderPremium({ products }: { products: MenuProduct[] }) {
         >
           Chat with us on WhatsApp
         </a>
-        <DesignSwitch />
       </div>
     </>
   );

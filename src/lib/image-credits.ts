@@ -7,7 +7,6 @@ export const imageCredits: { file: string; author: string; license: string }[] =
   { file: "product-pavers-1", author: "Amal Kumar", license: "CC0" },
   { file: "product-sand-1", author: "Peter Craven", license: "CC BY 2.0" },
   { file: "product-quarry-products-1", author: "James St. John", license: "CC BY 2.0" },
-  { file: "product-cement-and-materials-1", author: "Alex.Simon89", license: "CC BY 4.0" },
   { file: "about", author: "Bukulu Steven", license: "CC BY-SA 4.0" },
   { file: "product-red-common-bricks-2", author: "McKay Savage from London, UK", license: "CC BY 2.0" },
   { file: "product-red-common-bricks-3", author: "玄史生", license: "CC0" },
@@ -21,7 +20,4 @@ export const imageCredits: { file: string; author: string; license: string }[] =
   { file: "product-quarry-products-2", author: "U.S. Air Force photo by Master Sgt. Luke Olson", license: "Public domain" },
   { file: "product-quarry-products-3", author: "usfs_Eastern_Region", license: "Public domain" },
   { file: "product-quarry-products-4", author: "James St. John", license: "CC BY 2.0" },
-  { file: "product-cement-and-materials-2", author: "Jamie Tubers", license: "CC BY-SA 4.0" },
-  { file: "product-cement-and-materials-3", author: "Oussama zrafi", license: "CC BY-SA 3.0" },
-  { file: "product-cement-and-materials-4", author: "Szlomo Lejb", license: "CC BY 3.0" },
 ];

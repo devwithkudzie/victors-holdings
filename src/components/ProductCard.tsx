@@ -16,7 +16,9 @@ export function ProductCard({ product }: { product: Product }) {
       <div className="productbody">
         <h3>{product.name}</h3>
         <p>{product.summary}</p>
-        <span className="tag">View product →</span>
+        <span className="tag">
+          {product.variants.length > 1 ? `${product.variants.length} types · ` : ""}View product →
+        </span>
       </div>
     </Link>
   );

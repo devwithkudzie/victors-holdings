@@ -60,7 +60,10 @@ export function EnquiryForm({
           Product
           <select name="product" defaultValue={defaultProduct}>
             {products.map((p) => (
-              <option key={p.slug}>{p.name}</option>
+              <optgroup key={p.slug} label={p.name}>
+                <option value={p.name}>{p.variants.length > 1 ? `${p.name} (not sure which)` : p.name}</option>
+                {p.variants.length > 1 && p.variants.map((v) => <option key={v.slug}>{v.name}</option>)}
+              </optgroup>
             ))}
           </select>
         </label>

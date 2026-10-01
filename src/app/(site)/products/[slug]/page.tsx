@@ -5,6 +5,7 @@ import { EnquiryForm } from "@/components/EnquiryForm";
 import { ProductCard } from "@/components/ProductCard";
 import { Gallery } from "@/components/Gallery";
 import { Photo } from "@/components/Photo";
+import { VariantList } from "@/components/VariantList";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { productGallery, productImage } from "@/lib/images";
 import { getProduct, products } from "@/lib/products";
@@ -74,6 +75,16 @@ export default async function ProductPage({ params }: Props) {
             className="product-visual"
           />
         )}
+      </section>
+
+      <section className="section section-tight" id="types">
+        <div className="sectionhead">
+          <div>
+            <div className="eyebrow">{product.variants.length > 1 ? `${product.variants.length} options` : "Available"}</div>
+            <h2>{product.variants.length > 1 ? `Choose your ${product.name.toLowerCase()}` : product.name}</h2>
+          </div>
+        </div>
+        <VariantList product={product} source={source} />
       </section>
 
       <section className="section section-tight">

@@ -4,7 +4,6 @@ import Link from "next/link";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import { nav, whatsappLink } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
-import { DesignSwitch } from "../DesignSwitch";
 import { IconArrow, IconChat, IconGrid, IconHome, IconMore, IconQuote } from "../icons";
 import { Logo } from "../Logo";
 
@@ -34,7 +33,6 @@ export function HeaderApp({ products }: { products: MenuProduct[] }) {
           ))}
         </nav>
         <div className="ha-right">
-          <DesignSwitch compact />
           <Link href="/contact" className="ha-quote">
             Get a quote
           </Link>
@@ -94,7 +92,6 @@ export function HeaderApp({ products }: { products: MenuProduct[] }) {
             Contact & quotes <IconArrow size={18} />
           </Link>
         </div>
-        <DesignSwitch />
       </div>
     </>
   );

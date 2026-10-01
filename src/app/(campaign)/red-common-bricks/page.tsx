@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { Photo } from "@/components/Photo";
+import { VariantList } from "@/components/VariantList";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { images, productGallery } from "@/lib/images";
+import { getProduct } from "@/lib/products";
 
 /**
  * CAMPAIGN LANDING PAGE — the destination for Facebook/Instagram/WhatsApp ads.
@@ -38,6 +40,7 @@ const audiences = [
 
 export default function RedCommonBricksCampaign() {
   const photos = productGallery("red-common-bricks");
+  const bricks = getProduct("red-common-bricks")!;
 
   return (
     <>
@@ -86,6 +89,17 @@ export default function RedCommonBricksCampaign() {
           </div>
         </section>
       )}
+
+      <section className="section section-tight">
+        <div className="sectionhead">
+          <div>
+            <div className="eyebrow">Our bricks</div>
+            <h2>Pick your brick.</h2>
+          </div>
+          <p>Tap Ask to get a quote for a specific brick on WhatsApp.</p>
+        </div>
+        <VariantList product={bricks} source={SOURCE} leadRef="Bricks ad" />
+      </section>
 
       <section className="section dark">
         <div className="sectionhead">

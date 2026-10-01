@@ -27,12 +27,23 @@ Name them `product-<slug>-1` to `product-<slug>-5`:
 | Pavers & Paving | `product-pavers-1` … `-5` |
 | Sand | `product-sand-1` … `-5` |
 | Quarry Products | `product-quarry-products-1` … `-5` |
-| Cement & Other Materials | `product-cement-and-materials-1` … `-5` |
+| Face Bricks | `product-face-bricks-1` … `-5` |
 
 Suggested angles: close-up of the product · stacked/stockpiled in the yard ·
 loaded on the delivery truck · delivered on a customer's site · finished job using it.
 
 Best size: landscape, ~1600 × 1200. Keep files under ~800 KB.
+
+## Catalogue item photos — `catalog/` folder
+
+Each item from Victors' WhatsApp catalogue (e.g. Blue Heart Red Common Bricks) has a small
+photo in `catalog/<item-slug>.jpg`, shown in the "Choose your…" lists. The item slugs are in
+`src/lib/products.ts` (the `variants` lists).
+
+These were cut from screenshots of the WhatsApp catalogue, so they're only ~140px.
+**Replace them with the original photos** (same file names). Square photos work best.
+
+`product-face-bricks-1` … `-4` are enlarged versions of those thumbnails — replace them too.
 
 ## Logo
 

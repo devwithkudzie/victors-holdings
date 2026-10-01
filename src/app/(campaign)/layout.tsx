@@ -11,7 +11,6 @@ export default function CampaignLayout({ children }: { children: React.ReactNode
     <>
       <header className="nav campaign-nav">
         <Logo />
-        <DesignSwitch compact />
       </header>
       <main>{children}</main>
       <footer className="footer footer-slim">
@@ -19,6 +18,7 @@ export default function CampaignLayout({ children }: { children: React.ReactNode
           <b>VICTORS HOLDINGS</b> · {site.tagline}
         </div>
         <div>{site.location}</div>
+        <DesignSwitch />
       </footer>
     </>
   );

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import { nav, site, whatsappLink } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
-import { DesignSwitch } from "../DesignSwitch";
 import { IconArrow, IconChat, IconPhone, IconQuote } from "../icons";
 import { Logo } from "../Logo";
 
@@ -30,7 +29,6 @@ export function HeaderBold({ products }: { products: MenuProduct[] }) {
           ))}
         </nav>
         <div className="hb-right">
-          <DesignSwitch compact />
           <Link href="/contact" className="hb-quote">Get a quote</Link>
           <button className={`hb-burger${open ? " open" : ""}`} onClick={toggle} aria-expanded={open} aria-label="Menu">
             <span />
@@ -69,7 +67,6 @@ export function HeaderBold({ products }: { products: MenuProduct[] }) {
         >
           Get a quote on WhatsApp <IconArrow />
         </a>
-        <DesignSwitch />
       </div>
 
       <div className="hb-dock">
