@@ -17,8 +17,8 @@ export const site = {
   tagline: "Building materials & construction solutions",
   url: siteUrl(),
   location: "Harare, Zimbabwe",
-  // TODO: replace with Victors' real WhatsApp number (digits only, international format)
-  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263000000000",
+  // Digits only, international format. Override with NEXT_PUBLIC_WHATSAPP_NUMBER.
+  whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263782086781",
   email: "", // TODO: add once confirmed
 };
 

@@ -1,9 +1,11 @@
+import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { ProductCard } from "@/components/ProductCard";
 import { Photo } from "@/components/Photo";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { images } from "@/lib/images";
+import { images, productImage } from "@/lib/images";
+import { resolveImage } from "@/lib/resolve-image";
 import { products } from "@/lib/products";
 
 const featured = products.slice(0, 3);
@@ -62,6 +64,18 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      <nav className="rail" aria-label="Browse products">
+        {products.map((p) => {
+          const img = resolveImage(productImage(p.slug));
+          return (
+            <Link key={p.slug} href={`/products/${p.slug}`} className="rail-item">
+              <span className="rail-img">{img && <Image src={img} alt="" fill sizes="96px" />}</span>
+              {p.name}
+            </Link>
+          );
+        })}
+      </nav>
 
       <section className="section">
         <div className="sectionhead">

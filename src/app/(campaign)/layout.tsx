@@ -1,3 +1,4 @@
+import { DesignSwitch } from "@/components/DesignSwitch";
 import { Logo } from "@/components/Logo";
 import { site } from "@/lib/site";
 
@@ -8,8 +9,9 @@ import { site } from "@/lib/site";
 export default function CampaignLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <header className="nav">
+      <header className="nav campaign-nav">
         <Logo />
+        <DesignSwitch compact />
       </header>
       <main>{children}</main>
       <footer className="footer footer-slim">
