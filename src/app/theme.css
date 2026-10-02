@@ -1,0 +1,130 @@
+/* =====================================================================
+   Victors Holdings theme — mobile first.
+   Forest green + gold (from Victors' flyers), app-style navigation.
+   Base layout lives in globals.css; this file applies the theme.
+   ===================================================================== */
+
+body { font-family: var(--f-app), var(--f-body), system-ui, sans-serif; }
+h1, h2, h3, .hero h1 { font-family: var(--f-app), system-ui, sans-serif; }
+
+/* ---------- Theme tokens ---------- */
+:root {
+  --brick: #f5b800; --on-brick: #0b2a1a; --brick-ink: #0e6b3d; --brick-soft: #e2f1e7;
+  --ink: #14181a; --paper: #f4f7f4; --night: #0e4d2e; --muted: #5f6b66; --line: #e3e9e5; --r: 999px; --r-lg: 20px;
+}
+
+/* Shared re-skin of base components via tokens */
+.primary, .secondary, .navcta, .cta-btn { border-radius: var(--r); }
+.product, .step, .cta, .enquiry, .highlights > div, .audiences > div, .qty,
+.brickwall, .gallery-main, .product-visual, .about-photo { border-radius: var(--r-lg); }
+.footer { background: var(--night); }
+
+/* ---------- Product rail (homepage, swipeable on phones) ---------- */
+.rail {
+  display: flex; gap: 12px; overflow-x: auto; padding: 18px 16px; scroll-snap-type: x mandatory;
+  scrollbar-width: none; background: var(--paper);
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail-item { flex: 0 0 auto; scroll-snap-align: start; display: grid; justify-items: center; gap: 8px; width: 88px; font-size: 12px; font-weight: 650; text-align: center; line-height: 1.25; }
+.rail-img { position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden; background: #c8a16b; box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--brick); }
+.rail-img img { object-fit: cover; }
+@media (min-width: 900px) {
+  .rail { justify-content: center; gap: 28px; padding: 28px 6vw; }
+  .rail-item { width: 110px; font-size: 13px; }
+  .rail-img { width: 88px; height: 88px; }
+}
+
+/* =====================================================================
+   Navigation — slim top bar + app-style bottom tab bar on phones
+   ===================================================================== */
+.ha-bar {
+  position: sticky; top: 0; z-index: 40; height: 60px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px; background: rgba(255, 255, 255, .9); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+}
+.ha-bar .brand img { height: 26px; }
+.ha-links { display: none; }
+.ha-right { display: flex; align-items: center; gap: 12px; }
+.ha-quote { background: var(--brick); color: var(--on-brick); padding: 10px 16px; border-radius: 999px; font-weight: 700; font-size: 14px; font-family: var(--f-app), sans-serif; }
+
+.ha-tabs {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: grid; grid-template-columns: repeat(5, 1fr);
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom)); background: rgba(255, 255, 255, .96);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-top: 1px solid var(--line); box-shadow: 0 -8px 30px rgba(16, 24, 40, .06);
+}
+.ha-tabs a, .ha-tabs button {
+  display: flex; flex-direction: column; align-items: center; gap: 3px; min-height: 48px; justify-content: center;
+  font: 600 11px var(--f-app), sans-serif; color: #7a8291; background: none; border: 0; cursor: pointer; transition: color .2s;
+}
+.ha-tabs .on { color: var(--brick-ink); }
+.ha-tab-wa { color: var(--ink) !important; }
+.ha-tab-wa span {
+  display: grid; place-items: center; width: 54px; height: 54px; margin-top: -26px; border-radius: 50%;
+  background: #25d366; color: #fff; border: 4px solid #fff; box-shadow: 0 8px 20px rgba(37, 211, 102, .35);
+}
+.ha-scrim {
+  position: fixed; inset: 0; z-index: 44; background: rgba(15, 12, 10, .45); opacity: 0; pointer-events: none; transition: opacity .3s;
+}
+.ha-scrim.open { opacity: 1; pointer-events: auto; }
+.ha-sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 45; max-height: 86svh; overflow-y: auto; background: #fff;
+  border-radius: 24px 24px 0 0; padding: 10px 16px calc(24px + env(safe-area-inset-bottom));
+  transform: translateY(105%); transition: transform .38s cubic-bezier(.2, .8, .2, 1); visibility: hidden;
+}
+.ha-sheet.open { transform: none; visibility: visible; }
+.ha-handle { width: 42px; height: 5px; border-radius: 9px; background: #d0d5dd; margin: 0 auto 18px; }
+.ha-sheet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px 10px; }
+.ha-sheet-grid a { display: grid; gap: 7px; font: 600 12px/1.25 var(--f-app), sans-serif; text-align: center; }
+.ha-thumb { aspect-ratio: 1; border-radius: 18px; background: #e4e7ec center / cover no-repeat; }
+.ha-sheet-links { margin-top: 18px; }
+.ha-sheet-links a { display: flex; justify-content: space-between; align-items: center; padding: 15px 4px; border-bottom: 1px solid var(--line); font: 600 16px var(--f-app), sans-serif; }
+.ha-tabs ~ .footer { padding-bottom: calc(110px + env(safe-area-inset-bottom)); }
+
+/* B — page re-skin */
+h1, h2 { font-weight: 800; letter-spacing: -1.5px; }
+.hero { background: #fff; display: flex; flex-direction: column; align-items: stretch; gap: 22px; padding: 16px 16px 28px; min-height: 0; }
+.hero .brickwall { order: -1; height: 300px; border-radius: 24px; box-shadow: 0 18px 40px rgba(16, 24, 40, .14); }
+.hero .hero-card { left: 12px; right: 12px; bottom: 12px; width: auto; border-radius: 16px; background: rgba(255, 255, 255, .92); backdrop-filter: blur(8px); }
+.hero h1 { font-size: clamp(38px, 10.5vw, 72px); letter-spacing: -2px; line-height: 1.02; margin: 10px 0 12px; }
+.hero p { font-size: 16px; color: var(--muted); }
+.eyebrow { display: inline-block; background: var(--brick-soft); color: var(--brick-ink); padding: 6px 12px; border-radius: 999px; letter-spacing: 1px; font-size: 11px; }
+.actions { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.actions a { text-align: center; }
+.stats { justify-content: space-between; background: var(--paper); border-radius: 18px; padding: 16px; margin-top: 22px; }
+.stat strong { font-size: 18px; }
+.rail { background: #fff; padding-top: 4px; }
+.rail-img { border-radius: 22px; box-shadow: none; }
+.product { border: 0; box-shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06); }
+.productimg { margin: 8px 8px 0; border-radius: 14px; }
+.step { border: 0; border-radius: 20px; box-shadow: 0 8px 24px rgba(16, 24, 40, .06); }
+.benefits { gap: 10px; background: transparent; }
+.benefit { border-radius: 20px; background: #135c39; }
+.benefits { background: transparent; }
+.benefit p { color: #cfe3d7; }
+.dark { background: var(--night); }
+.cta { margin-left: 16px; margin-right: 16px; }
+.enquiry input, .enquiry select, .enquiry textarea { border-radius: 12px; }
+.primary { font-weight: 700; }
+@media (min-width: 900px) {
+  .hero { display: grid; grid-template-columns: 1fr 1fr; align-items: center; padding: 40px 6vw 60px; gap: 50px; }
+  .hero .brickwall { order: 1; height: 520px; }
+  .actions { display: flex; }
+}
+
+/* ---------- Desktop (≥ 900px) ---------- */
+@media (min-width: 900px) {
+  .ha-bar { height: 72px; padding: 0 6vw; }
+  .ha-bar .brand img { height: 32px; }
+  .ha-links { display: flex; gap: 2px; background: #f0f2f5; padding: 4px; border-radius: 999px; }
+  .ha-links a { padding: 8px 16px; border-radius: 999px; font: 600 14px var(--f-app), sans-serif; color: #475467; transition: background .2s, color .2s; }
+  .ha-links a.active, .ha-links a:hover { background: #fff; color: var(--ink); box-shadow: 0 1px 3px rgba(16, 24, 40, .1); }
+  .ha-tabs, .ha-sheet, .ha-scrim { display: none; }
+  .ha-tabs ~ .footer { padding-bottom: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ha-sheet { transition: none !important; }
+}
+
+/* Campaign page: slim one-row footer */
+.footer-slim { flex-wrap: wrap; align-items: center; }

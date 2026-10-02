@@ -1,4 +1,3 @@
-import { DesignSwitch } from "@/components/DesignSwitch";
 import { Logo } from "@/components/Logo";
 import { site } from "@/lib/site";
 
@@ -18,7 +17,6 @@ export default function CampaignLayout({ children }: { children: React.ReactNode
           <b>VICTORS HOLDINGS</b> · {site.tagline}
         </div>
         <div>{site.location}</div>
-        <DesignSwitch />
       </footer>
     </>
   );

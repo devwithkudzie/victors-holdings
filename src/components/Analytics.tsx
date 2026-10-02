@@ -1,6 +1,7 @@
 import Script from "next/script";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
+// Victors Holdings GA4 property. Override with NEXT_PUBLIC_GA_ID if needed.
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-T0TXMTQY28";
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 
 export function Analytics() {

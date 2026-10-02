@@ -4,17 +4,17 @@ import Link from "next/link";
 import { trackWhatsAppClick } from "@/lib/analytics";
 import { nav, whatsappLink } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
-import { IconArrow, IconChat, IconGrid, IconHome, IconMore, IconQuote } from "../icons";
-import { Logo } from "../Logo";
+import { IconArrow, IconChat, IconGrid, IconHome, IconMore, IconQuote } from "./icons";
+import { Logo } from "./Logo";
 
 const WA_MSG = "Hi Victors, I'd like a quote for building materials.";
 
 /**
- * Design B — App. Slim top bar plus an app-style bottom tab bar on phones
+ * Slim top bar plus an app-style bottom tab bar on phones
  * (always-visible nav in the thumb zone, raised WhatsApp button in the centre).
  * "More" opens a bottom sheet with the rest of the pages and the design picker.
  */
-export function HeaderApp({ products }: { products: MenuProduct[] }) {
+export function Header({ products }: { products: MenuProduct[] }) {
   const { open, toggle, close, pathname } = useMenu();
   const is = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 

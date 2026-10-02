@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { products } from "@/lib/products";
 import { site } from "@/lib/site";
-import { DesignSwitch } from "./DesignSwitch";
 import { Logo } from "./Logo";
 
 export function Footer() {
@@ -28,7 +27,6 @@ export function Footer() {
           <Link href="/products">All products</Link>
         </div>
       </div>
-      <DesignSwitch />
       <div className="footer-base">
         © {new Date().getFullYear()} Victors Holdings · <Link href="/credits">Photo credits</Link>
       </div>
