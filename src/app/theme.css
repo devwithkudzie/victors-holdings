@@ -128,3 +128,45 @@ h1, h2 { font-weight: 800; letter-spacing: -1.5px; }
 
 /* Campaign page: slim one-row footer */
 .footer-slim { flex-wrap: wrap; align-items: center; }
+
+/* ---------- Testimonials (WhatsApp-style) ---------- */
+.testimonials { background: #f1ede6; }
+.t-track {
+  display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; margin: 0 -16px; padding: 4px 16px 10px;
+  scrollbar-width: none;
+}
+.t-track::-webkit-scrollbar { display: none; }
+.t-card {
+  flex: 0 0 86%; scroll-snap-align: center; margin: 0; display: flex; flex-direction: column; gap: 14px;
+  background: #fff; border-radius: var(--r-lg); padding: 14px; box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+}
+.t-chat {
+  position: relative; display: flex; flex-direction: column; gap: 6px; padding: 34px 12px 14px; border-radius: 14px;
+  background: #efeae2 radial-gradient(rgba(0, 0, 0, .035) 1px, transparent 1px) 0 0 / 14px 14px;
+}
+.t-badge {
+  position: absolute; top: 10px; left: 12px; font-size: 11px; font-weight: 700; color: #1a7f45;
+  padding-left: 16px; background: radial-gradient(circle, #25d366 4px, transparent 4.5px) 0 50% / 10px 10px no-repeat;
+}
+.t-bubble {
+  position: relative; max-width: 88%; margin: 0; padding: 7px 10px 18px; border-radius: 10px; font-size: 14.5px; line-height: 1.4;
+  color: #111b21; box-shadow: 0 1px .5px rgba(11, 20, 26, .13); font-family: var(--f-body), system-ui, sans-serif;
+}
+.t-bubble.in { align-self: flex-start; background: #fff; border-top-left-radius: 2px; }
+.t-bubble.out { align-self: flex-end; background: #d9fdd3; border-top-right-radius: 2px; }
+.t-bubble small { position: absolute; right: 8px; bottom: 3px; font-size: 10.5px; color: #667781; }
+.t-bubble.out small { color: #53bdeb; }
+.t-translation { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); font-style: italic; }
+.t-card figcaption { margin-top: auto; display: grid; gap: 2px; font-size: 14px; }
+.t-card figcaption span { font-size: 12px; color: var(--muted); }
+.t-areas { margin-top: 22px; display: grid; gap: 10px; }
+.t-areas > span { font-size: 11px; font-weight: 750; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brick-ink); }
+.t-areas div { display: flex; flex-wrap: wrap; gap: 8px; }
+.t-areas em { font-style: normal; font-size: 13px; font-weight: 600; padding: 7px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--line); }
+.t-review { display: inline-block; margin-top: 18px; font-size: 14px; font-weight: 650; color: var(--brick-ink); }
+@media (min-width: 900px) {
+  .t-track { display: grid; grid-template-columns: repeat(2, 1fr); overflow: visible; margin: 0; padding: 0; }
+}
+@media (min-width: 1200px) {
+  .t-track { grid-template-columns: repeat(4, 1fr); }
+}

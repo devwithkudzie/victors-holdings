@@ -6,7 +6,7 @@ import { products } from "@/lib/products";
 export const metadata: Metadata = {
   title: "Products",
   description:
-    "Red common bricks, pavers, sand, quarry products and more from Victors Holdings — building materials supplier in Harare.",
+    "Red common and face bricks, pavers, river and pit sand, quarry stones, cement and roofing from Victors Holdings, Mt Hampden, Harare.",
   alternates: { canonical: "/products" },
 };
 

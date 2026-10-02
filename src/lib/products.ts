@@ -24,6 +24,7 @@ export type Product = {
   variants: Variant[];
 };
 
+// Product range from Victors' WhatsApp catalogue + Google Business Profile.
 // No prices on the site: Victors' prices change often, so customers ask for today's price on WhatsApp.
 
 export const products: Product[] = [
@@ -38,12 +39,12 @@ export const products: Product[] = [
     uses: [
       "New homes and extensions",
       "Boundary and perimeter walls",
-      "Commercial and multi-unit developments",
+      "Commercial, industrial and multi-unit developments",
       "Foundations and plastered walls",
     ],
     highlights: [
       { title: "Consistent supply", body: "Order for a single build or schedule supply across a project." },
-      { title: "Delivered to site", body: "Tell us your location and we'll arrange delivery in and around Harare." },
+      { title: "Delivered to site", body: "Delivery across Harare and surrounding areas, from our Mt Hampden yard." },
       { title: "Fast quotes", body: "Send your quantity on WhatsApp and get a response without chasing." },
     ],
     enquiryPrompt: "How many bricks do you need, and where is the site?",
@@ -116,28 +117,31 @@ export const products: Product[] = [
   },
   {
     slug: "sand",
-    name: "River Sand",
-    summary: "River sand for mixing, plastering and bedding.",
+    name: "Sand",
+    summary: "River sand and pit sand for mixing, plastering and bedding.",
     description:
-      "River sand for brickwork, plastering, concrete and paving bedding. Tell us how much you need and where to deliver.",
+      "River sand and pit sand for brickwork, plastering, concrete and paving bedding. Tell us how much you need and where to deliver.",
     swatch: "sand",
     tag: "In stock",
     uses: ["Mortar for brickwork", "Plastering", "Concrete mixes", "Paving bedding"],
     highlights: [
-      { title: "In stock", body: "River sand available now for delivery." },
+      { title: "In stock", body: "River sand and pit sand available for delivery." },
       { title: "Load sizes", body: "Ask about the load sizes available for your site." },
       { title: "Bundle with bricks", body: "Order alongside bricks for one coordinated delivery." },
     ],
     enquiryPrompt: "How much sand do you need, and where is the site?",
     quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
-    variants: [{ slug: "river-sand", name: "River Sand", note: "Available in stock" }],
+    variants: [
+      { slug: "river-sand", name: "River Sand", note: "Available in stock" },
+      { slug: "pit-sand", name: "Pit Sand" },
+    ],
   },
   {
     slug: "quarry-products",
     name: "Quarry Products",
-    summary: "Quarry dust and crusher run for foundations, slabs and site works.",
+    summary: "Quarry stones, aggregates, quarry dust and crusher run.",
     description:
-      "Quarry dust and crusher run for concrete, foundations, bedding and site preparation, delivered to your site.",
+      "Quarry stones, aggregates, quarry dust and crusher run for concrete, foundations, bedding and site preparation, delivered to your site.",
     swatch: "stone",
     tag: "In stock",
     uses: ["Concrete and slabs", "Foundations", "Paving bedding", "Road and site preparation"],
@@ -149,8 +153,31 @@ export const products: Product[] = [
     enquiryPrompt: "Which quarry product do you need, and how much?",
     quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
     variants: [
+      { slug: "quarry-stones", name: "Quarry Stones / Aggregates", note: "For concrete, slabs and foundations" },
       { slug: "quarry-dust", name: "Quarry Dust" },
       { slug: "crusher-run", name: "Crusher Run", note: "Mixture of quarry dust and crushed stone" },
+    ],
+  },
+  {
+    slug: "cement-and-roofing",
+    name: "Cement & Roofing",
+    summary: "Cement, roofing materials and other construction essentials.",
+    description:
+      "Cement, roofing materials and the other essentials your build needs, from the same supplier as your bricks, sand and stone. Send your material list and we'll quote the lot.",
+    swatch: "cement",
+    tag: "Ask for availability",
+    uses: ["Concrete and mortar", "Roofing new builds", "Renovations", "Contractor material lists"],
+    highlights: [
+      { title: "One supplier", body: "Bricks, sand, stone, cement and roofing on one order." },
+      { title: "Send your list", body: "Share your bill of materials and we'll quote everything on it." },
+      { title: "Delivered together", body: "Fewer deliveries to coordinate on site." },
+    ],
+    enquiryPrompt: "What materials are on your list?",
+    quantityOptions: ["Small order", "Full house build", "Multiple units", "I'll send my list"],
+    variants: [
+      { slug: "cement", name: "Cement" },
+      { slug: "roofing-materials", name: "Roofing Materials" },
+      { slug: "other-construction-essentials", name: "Other Construction Essentials", note: "Send us your material list" },
     ],
   },
 ];

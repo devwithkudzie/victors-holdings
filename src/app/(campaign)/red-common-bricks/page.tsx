@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { EnquiryForm } from "@/components/EnquiryForm";
 import { Photo } from "@/components/Photo";
+import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { images, productGallery } from "@/lib/images";
@@ -138,8 +139,9 @@ export default function RedCommonBricksCampaign() {
             <div className="eyebrow">Delivery</div>
             <h2>Delivered where you&apos;re building.</h2>
             <p className="muted">
-              Victors arranges delivery to sites in and around Harare. Share your location when you enquire and
-              we&apos;ll confirm delivery options and timing with your quote.
+              We deliver from our Mt Hampden yard to sites across Harare and surrounding areas, and customers have
+              had bricks delivered as far as Kadoma and Mt Darwin. Share your location when you enquire and we&apos;ll
+              confirm delivery cost and timing with your quote.
             </p>
           </div>
           <div>
@@ -155,6 +157,8 @@ export default function RedCommonBricksCampaign() {
           </div>
         </div>
       </section>
+
+      <Testimonials eyebrow="Customers on WhatsApp" title="Bricks delivered. Customers happy." />
 
       <section className="section enquire-section" id="quote">
         <div className="enquire-grid">

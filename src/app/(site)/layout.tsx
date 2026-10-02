@@ -1,3 +1,4 @@
+import { BusinessJsonLd } from "@/components/BusinessJsonLd";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { productImage } from "@/lib/images";
@@ -9,6 +10,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <>
+      <BusinessJsonLd />
       <Header products={menuProducts} />
       <main>{children}</main>
       <Footer />

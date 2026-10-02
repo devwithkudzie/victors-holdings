@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { ProductCard } from "@/components/ProductCard";
+import { Testimonials } from "@/components/Testimonials";
 import { Photo } from "@/components/Photo";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { images, productImage } from "@/lib/images";
@@ -28,11 +29,11 @@ export default function HomePage() {
     <>
       <section className="hero">
         <div>
-          <div className="eyebrow">Building materials • Harare</div>
+          <div className="eyebrow">Building materials • Mt Hampden, Harare</div>
           <h1>Build with materials you can count on.</h1>
           <p>
-            Quality building materials and practical construction solutions for builders, contractors and
-            property developers.
+            Bricks, sand, stone, cement and roofing for residential, commercial and industrial projects, delivered to
+            your site across Harare and surrounding areas.
           </p>
           <div className="actions">
             <WhatsAppButton message="Hi Victors, I'd like a quote for building materials." source="home_hero" />
@@ -50,8 +51,8 @@ export default function HomePage() {
               <span>Construction materials</span>
             </div>
             <div className="stat">
-              <strong>Harare</strong>
-              <span>Based & serving</span>
+              <strong>Mt Hampden</strong>
+              <span>Harare yard</span>
             </div>
           </div>
         </div>
@@ -123,6 +124,8 @@ export default function HomePage() {
         </div>
       </section>
 
+      <Testimonials />
+
       <section className="section">
         <div className="sectionhead">
           <div>
@@ -146,12 +149,12 @@ export default function HomePage() {
         <div className="sectionhead">
           <div>
             <div className="eyebrow">About Victors</div>
-            <h2>A Harare supplier built around the builder.</h2>
+            <h2>A Mt Hampden supplier built around the builder.</h2>
           </div>
           <div>
             <p>
-              Victors Holdings supplies building materials and paving solutions to homeowners, contractors and
-              developers across Harare.
+              From our yard in Mt Hampden, one of Harare&apos;s fastest-growing construction hubs, Victors supplies
+              builders, contractors, developers and homeowners across Harare and surrounding areas.
             </p>
             <Link className="text-link" href="/about">
               More about us →

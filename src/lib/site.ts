@@ -16,7 +16,11 @@ export const site = {
   name: "Victors Holdings",
   tagline: "Building materials & construction solutions",
   url: siteUrl(),
-  location: "Harare, Zimbabwe",
+  // From Victors' Google Business Profile — keep in sync with it
+  location: "Mt Hampden, Harare",
+  address: { locality: "Mt Hampden", region: "Harare", country: "ZW" },
+  delivery: "Delivering across Harare and surrounding areas, and further afield on request",
+  googleReviewUrl: "https://g.page/r/CSsjOuMG0hMBEBM/review",
   // Digits only, international format. Override with NEXT_PUBLIC_WHATSAPP_NUMBER.
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263782086781",
   email: "", // TODO: add once confirmed

@@ -5,6 +5,7 @@ import { EnquiryForm } from "@/components/EnquiryForm";
 import { ProductCard } from "@/components/ProductCard";
 import { Gallery } from "@/components/Gallery";
 import { Photo } from "@/components/Photo";
+import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { productGallery, productImage } from "@/lib/images";
@@ -127,6 +128,8 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      {product.slug.endsWith("bricks") && <Testimonials />}
 
       <section className="section enquire-section" id="enquire">
         <div className="enquire-grid">

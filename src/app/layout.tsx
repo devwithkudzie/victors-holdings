@@ -11,11 +11,11 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variabl
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "Victors Holdings — Building Materials in Harare",
+    default: "Victors Holdings — Building Materials Supplier in Mt Hampden, Harare",
     template: "%s | Victors Holdings",
   },
   description:
-    "Quality building materials and practical construction solutions for builders, contractors and property developers in Harare, Zimbabwe.",
+    "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, delivered across Harare and surrounding areas.",
   openGraph: { siteName: site.name, locale: "en_ZW", type: "website" },
 };
 

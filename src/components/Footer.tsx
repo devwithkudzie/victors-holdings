@@ -10,7 +10,7 @@ export function Footer() {
         <div>
           <Logo light />
           <p>{site.tagline}</p>
-          <p>{site.location} · WhatsApp enquiries</p>
+          <p>{site.location} · Delivery across Harare &amp; surrounding areas</p>
         </div>
         <div>
           <b>Products</b>

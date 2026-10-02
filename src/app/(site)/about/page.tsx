@@ -5,7 +5,7 @@ import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Victors Holdings supplies building materials and paving solutions in Harare, Zimbabwe.",
+  description: "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, delivered across Harare and surrounding areas.",
   alternates: { canonical: "/about" },
 };
 
@@ -23,8 +23,8 @@ export default function AboutPage() {
         <div className="eyebrow">About Victors</div>
         <h1>Less chasing. More building.</h1>
         <p>
-          Victors Holdings is a Harare-based supplier of building materials and paving solutions for homeowners,
-          contractors and property developers.
+          Victors Holdings is a trusted building materials supplier based in Mt Hampden, Harare, supplying
+          residential, commercial and industrial projects.
         </p>
       </section>
       <div className="about-photo-wrap">
@@ -38,8 +38,14 @@ export default function AboutPage() {
             to delivery.
           </p>
           <p>
-            From red common bricks to pavers and paving installation, we help you source the materials your project
-            needs and get them to site.
+            We supply a wide range of building products: red common and face bricks, cement, quarry stones, river
+            sand, pit sand, aggregates, roofing materials, pavers and other construction essentials, at competitive
+            prices.
+          </p>
+          <p>
+            Our commitment is reliable products, excellent customer service and timely supply to builders,
+            contractors, developers and homeowners across Harare and surrounding areas. Mt Hampden is a growing
+            construction hub, and we&apos;re proud to be the local supplier helping new developments get built.
           </p>
         </div>
         <div className="benefits light">
