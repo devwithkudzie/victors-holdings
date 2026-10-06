@@ -5,19 +5,12 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { trackLead } from "@/lib/analytics";
 import { buildLeadMessage, customerTypes, NOT_SURE, timelines, type Lead } from "@/lib/lead";
-import { products, type Product } from "@/lib/products";
+import { products } from "@/lib/products";
 import { openWhatsApp, whatsappLink } from "@/lib/site";
 import { useMenu } from "@/lib/useMenu";
 import { IconChat, IconClose } from "./icons";
+import { anyOf, ProductPicker, selectionCategory, selectionLabel } from "./ProductPicker";
 
-
-/** Every option in the product picker: each category ("not sure which") plus its items. */
-const productOptions = products.flatMap((p) => [
-  { value: p.name, label: p.variants.length > 1 ? `${p.name} (not sure which)` : p.name, category: p },
-  ...(p.variants.length > 1 ? p.variants.map((v) => ({ value: v.name, label: v.name, category: p })) : []),
-]);
-const categoryOf = (value: string): Product | undefined =>
-  productOptions.find((o) => o.value === value)?.category ?? products.find((p) => p.variants.some((v) => v.name === value));
 
 export type LeadFormProps = {
   /** A specific item, e.g. "Blue Heart Red Common Bricks" — fixed, no picker shown */
@@ -45,9 +38,14 @@ export function LeadForm({
   inline = false,
   onSent,
 }: LeadFormProps & { inline?: boolean; onSent?: () => void }) {
-  const [product, setProduct] = useState(fixedProduct ?? products.find((p) => p.slug === category)?.name ?? "");
-  const cat = categoryOf(product);
-  const qtyOptions = cat?.quantityOptions ?? ["Small order", "Medium order", "Large order"];
+  const preCat = products.find((p) => p.slug === category);
+  const [selected, setSelected] = useState<string[]>(fixedProduct ? [fixedProduct] : preCat ? [anyOf(preCat)] : []);
+  const productNames = selected.map(selectionLabel);
+  const cats = [...new Set(selected.map(selectionCategory).filter((c) => c != null))];
+  const cat = cats.length === 1 ? cats[0] : undefined;
+  /** Several categories chosen → customers type their quantities instead of picking one */
+  const multiCategory = cats.length > 1;
+  const qtyOptions = multiCategory ? [] : (cat?.quantityOptions ?? ["Small order", "Medium order", "Large order"]);
 
   const presetIsOption = !!presetQty && (qtyOptions.includes(presetQty) || presetQty === NOT_SURE);
   const [quantity, setQuantity] = useState(presetQty ? (presetIsOption ? presetQty : "custom") : "");
@@ -60,12 +58,12 @@ export function LeadForm({
   const [notes, setNotes] = useState("");
 
   const qty = quantity === "custom" ? customQty.trim() : quantity;
-  const lead: Lead = { product, quantity: qty, delivery, location: location.trim(), timeline, customerType, name: name.trim(), notes, ref: leadRef };
+  const lead: Lead = { products: productNames, quantity: qty, delivery, location: location.trim(), timeline, customerType, name: name.trim(), notes, ref: leadRef };
   const message = buildLeadMessage(lead);
   const [tried, setTried] = useState(false);
   const root = useRef<HTMLDivElement>(null);
   const missing = {
-    product: !product,
+    product: selected.length === 0,
     quantity: !qty,
     location: delivery === "deliver" && !lead.location,
     customerType: !customerType,
@@ -76,9 +74,14 @@ export function LeadForm({
   const flag = (...keys: (keyof typeof missing)[]) => (tried && keys.some((k) => missing[k]) ? "is-missing" : undefined);
   const req = (show: boolean) => (tried && show ? <em className="qs-req">Required</em> : null);
 
-  function changeProduct(value: string) {
-    if (categoryOf(value) !== cat && quantity !== "custom") setQuantity("");
-    setProduct(value);
+  function changeProducts(next: string[]) {
+    const nextCats = new Set(next.map(selectionCategory));
+    if (nextCats.size > 1) {
+      if (quantity !== NOT_SURE) setQuantity("custom");
+    } else if (quantity !== "custom" && quantity !== NOT_SURE && !(cat && nextCats.has(cat))) {
+      setQuantity("");
+    }
+    setSelected(next);
   }
 
   function send() {
@@ -90,7 +93,7 @@ export function LeadForm({
       if (el instanceof HTMLInputElement) el.focus({ preventScroll: true });
       return;
     }
-    trackLead(source, { product, category: cat?.slug, quantity: qty, delivery, timeline, customer_type: customerType });
+    trackLead(source, { product: productNames.join(", "), category: cats.map((c) => c.slug).join(","), quantity: qty, delivery, timeline, customer_type: customerType });
     onSent?.();
     openWhatsApp(whatsappLink(message));
   }
@@ -103,24 +106,9 @@ export function LeadForm({
       {!fixedProduct && (
         <fieldset data-field="product" className={flag("product")}>
           <legend>
-            {n()}What do you need? {req(missing.product)}
+            {n()}What do you need? <small className="qs-hint">Choose one or more</small> {req(missing.product)}
           </legend>
-          <select value={product} onChange={(e) => changeProduct(e.target.value)} aria-label="Product">
-            <option value="" disabled>
-              Choose a product…
-            </option>
-            {products.map((p) => (
-              <optgroup key={p.slug} label={p.name}>
-                {productOptions
-                  .filter((o) => o.category === p)
-                  .map((o) => (
-                    <option key={o.value} value={o.value}>
-                      {o.label}
-                    </option>
-                  ))}
-              </optgroup>
-            ))}
-          </select>
+          <ProductPicker value={selected} onChange={changeProducts} invalid={tried && missing.product} />
         </fieldset>
       )}
 
@@ -135,11 +123,16 @@ export function LeadForm({
             </button>
           ))}
           <button type="button" className={quantity === "custom" ? "on" : undefined} onClick={() => setQuantity("custom")}>
-            Other amount
+            {multiCategory ? "Type quantities" : "Other amount"}
           </button>
         </div>
         {quantity === "custom" && (
-          <input value={customQty} onChange={(e) => setCustomQty(e.target.value)} placeholder="e.g. 7,500 bricks or 3 loads" enterKeyHint="next" />
+          <input
+            value={customQty}
+            onChange={(e) => setCustomQty(e.target.value)}
+            placeholder={multiCategory ? "e.g. 10,000 bricks + 2 loads river sand" : "e.g. 7,500 bricks or 3 loads"}
+            enterKeyHint="next"
+          />
         )}
       </fieldset>
 

@@ -7,7 +7,8 @@ export const NOT_SURE = "Not sure — help me estimate";
 export const timelines = ["As soon as possible", "This week", "This month", "Just checking prices"] as const;
 
 export type Lead = {
-  product: string;
+  /** One or more products, e.g. ["Blue Heart Red Common Bricks", "River Sand"] */
+  products: string[];
   quantity: string;
   delivery: "deliver" | "collect";
   location: string;
@@ -28,7 +29,9 @@ export function buildLeadMessage(lead: Lead) {
     "Hi Victors Holdings 👋",
     "I'd like a quote for:",
     "",
-    `*Product:* ${lead.product}`,
+    ...(lead.products.length > 1
+      ? ["*Products:*", ...lead.products.map((p) => `• ${p}`)]
+      : [`*Product:* ${lead.products[0] ?? ""}`]),
     `*Quantity:* ${lead.quantity}`,
     lead.delivery === "deliver" ? `*Delivery:* Deliver to ${lead.location}` : "*Delivery:* I'll collect",
     `*Needed:* ${lead.timeline}`,

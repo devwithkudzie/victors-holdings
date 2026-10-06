@@ -269,3 +269,9 @@ h1, h2 { font-weight: 800; letter-spacing: -1.5px; }
   .hc-slide, .hc-copy { transition: none; }
   .hc-slide img { animation: none !important; }
 }
+
+/* Keep focused/scrolled-to form fields clear of the sticky top bar and the phone tab bar */
+html { scroll-padding-top: 72px; }
+@media (max-width: 899px) {
+  html { scroll-padding-bottom: 88px; }
+}
