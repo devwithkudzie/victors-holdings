@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { trackLead } from "@/lib/analytics";
 import { buildLeadMessage, customerTypes, NOT_SURE, timelines, type Lead } from "@/lib/lead";
@@ -18,13 +18,6 @@ const productOptions = products.flatMap((p) => [
 ]);
 const categoryOf = (value: string): Product | undefined =>
   productOptions.find((o) => o.value === value)?.category ?? products.find((p) => p.variants.some((v) => v.name === value));
-
-/** Shows WhatsApp's *bold* and _italic_ markup the way WhatsApp will display it. */
-function formatForPreview(text: string) {
-  return text.split(/(\*[^*\n]+\*|_[^_\n]+_)/g).map((part, i) =>
-    /^\*.+\*$/.test(part) ? <b key={i}>{part.slice(1, -1)}</b> : /^_.+_$/.test(part) ? <i key={i}>{part.slice(1, -1)}</i> : part,
-  );
-}
 
 export type LeadFormProps = {
   /** A specific item, e.g. "Blue Heart Red Common Bricks" — fixed, no picker shown */
@@ -69,13 +62,19 @@ export function LeadForm({
   const qty = quantity === "custom" ? customQty.trim() : quantity;
   const lead: Lead = { product, quantity: qty, delivery, location: location.trim(), timeline, customerType, name: name.trim(), notes, ref: leadRef };
   const message = buildLeadMessage(lead);
-  const missing = [
-    !product && "product",
-    !qty && "quantity",
-    delivery === "deliver" && !lead.location && "site location",
-    !customerType && "who you are",
-    !lead.name && "your name",
-  ].filter(Boolean) as string[];
+  const [tried, setTried] = useState(false);
+  const root = useRef<HTMLDivElement>(null);
+  const missing = {
+    product: !product,
+    quantity: !qty,
+    location: delivery === "deliver" && !lead.location,
+    customerType: !customerType,
+    name: !lead.name,
+  };
+  const firstMissing = (Object.keys(missing) as (keyof typeof missing)[]).find((k) => missing[k]);
+  /** Marks an unanswered question after the visitor taps Send */
+  const flag = (...keys: (keyof typeof missing)[]) => (tried && keys.some((k) => missing[k]) ? "is-missing" : undefined);
+  const req = (show: boolean) => (tried && show ? <em className="qs-req">Required</em> : null);
 
   function changeProduct(value: string) {
     if (categoryOf(value) !== cat && quantity !== "custom") setQuantity("");
@@ -83,7 +82,14 @@ export function LeadForm({
   }
 
   function send() {
-    if (missing.length) return;
+    if (firstMissing) {
+      // Take the visitor straight to the first unanswered question
+      setTried(true);
+      const el = root.current?.querySelector<HTMLElement>(`[data-field="${firstMissing}"]`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      if (el instanceof HTMLInputElement) el.focus({ preventScroll: true });
+      return;
+    }
     trackLead(source, { product, category: cat?.slug, quantity: qty, delivery, timeline, customer_type: customerType });
     onSent?.();
     openWhatsApp(whatsappLink(message));
@@ -93,10 +99,12 @@ export function LeadForm({
   const n = () => `${++step}. `;
 
   return (
-    <div className={`qs-body${inline ? " qs-inline" : ""}`}>
+    <div className={`qs-body${inline ? " qs-inline" : ""}`} ref={root}>
       {!fixedProduct && (
-        <fieldset>
-          <legend>{n()}What do you need?</legend>
+        <fieldset data-field="product" className={flag("product")}>
+          <legend>
+            {n()}What do you need? {req(missing.product)}
+          </legend>
           <select value={product} onChange={(e) => changeProduct(e.target.value)} aria-label="Product">
             <option value="" disabled>
               Choose a product…
@@ -116,8 +124,10 @@ export function LeadForm({
         </fieldset>
       )}
 
-      <fieldset>
-        <legend>{n()}How much do you need?</legend>
+      <fieldset data-field="quantity" className={flag("quantity")}>
+        <legend>
+          {n()}How much do you need? {req(missing.quantity)}
+        </legend>
         <div className="qs-chips">
           {[...qtyOptions, NOT_SURE].map((q) => (
             <button key={q} type="button" className={quantity === q ? "on" : undefined} onClick={() => setQuantity(q)}>
@@ -129,12 +139,14 @@ export function LeadForm({
           </button>
         </div>
         {quantity === "custom" && (
-          <input value={customQty} onChange={(e) => setCustomQty(e.target.value)} placeholder="e.g. 7,500 bricks or 3 loads" />
+          <input value={customQty} onChange={(e) => setCustomQty(e.target.value)} placeholder="e.g. 7,500 bricks or 3 loads" enterKeyHint="next" />
         )}
       </fieldset>
 
-      <fieldset>
-        <legend>{n()}Delivery or collection?</legend>
+      <fieldset className={flag("location")}>
+        <legend>
+          {n()}Delivery or collection? {req(missing.location)}
+        </legend>
         <div className="qs-seg">
           <button type="button" className={delivery === "deliver" ? "on" : undefined} onClick={() => setDelivery("deliver")}>
             Deliver to my site
@@ -145,6 +157,9 @@ export function LeadForm({
         </div>
         {delivery === "deliver" && (
           <input
+            data-field="location"
+            className={tried && missing.location ? "is-missing" : undefined}
+            enterKeyHint="next"
             value={location}
             onChange={(e) => setLocation(e.target.value)}
             placeholder="Suburb / area, e.g. Ruwa or Borrowdale"
@@ -164,8 +179,10 @@ export function LeadForm({
         </div>
       </fieldset>
 
-      <fieldset>
-        <legend>{n()}About you</legend>
+      <fieldset data-field="customerType" className={flag("customerType")}>
+        <legend>
+          {n()}About you {req(missing.customerType || missing.name)}
+        </legend>
         <div className="qs-chips">
           {customerTypes.map((c) => (
             <button key={c} type="button" className={customerType === c ? "on" : undefined} onClick={() => setCustomerType(c)}>
@@ -173,18 +190,21 @@ export function LeadForm({
             </button>
           ))}
         </div>
-        <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" autoComplete="name" />
-        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Anything else? (optional)" rows={2} />
+        <input
+          data-field="name"
+          className={tried && missing.name ? "is-missing" : undefined}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Your name"
+          autoComplete="name"
+          enterKeyHint="done"
+        />
+        <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Anything else? (optional)" rows={1} />
       </fieldset>
 
-      <details className="qs-preview">
-        <summary>Preview your WhatsApp message</summary>
-        <pre>{formatForPreview(message)}</pre>
-      </details>
-
       <div className="qs-foot">
-        {missing.length > 0 && <p className="qs-missing">Add {missing.join(", ")} to continue</p>}
-        <button type="button" className="qs-send" disabled={missing.length > 0} onClick={send}>
+        {tried && firstMissing && <p className="qs-missing">Please answer the questions marked Required</p>}
+        <button type="button" className="qs-send" onClick={send}>
           <IconChat size={20} />
           Send on WhatsApp
         </button>

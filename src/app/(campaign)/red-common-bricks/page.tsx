@@ -174,7 +174,6 @@ export default function RedCommonBricksCampaign() {
           <div>
             <div className="eyebrow">Get a quote</div>
             <h2>Need bricks for your project?</h2>
-            <p className="muted">Tell us how many you need and where you&apos;re building.</p>
           </div>
           <div className="lead-card">
             <LeadForm inline category="red-common-bricks" source={SOURCE} leadRef={REF} />

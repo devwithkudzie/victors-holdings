@@ -133,12 +133,8 @@ export default async function ProductPage({ params }: Props) {
       <section className="section enquire-section" id="enquire">
         <div className="enquire-grid">
           <div>
-            <div className="eyebrow">Request a quote</div>
-            <h2>{product.enquiryPrompt}</h2>
-            <p className="muted">
-              Answer a few quick questions and WhatsApp opens with your request ready to send, so Victors has
-              everything needed to quote.
-            </p>
+            <div className="eyebrow">{product.name}</div>
+            <h2>Get today&apos;s price</h2>
           </div>
           <div className="lead-card">
             <LeadForm inline category={product.slug} source={source} />
