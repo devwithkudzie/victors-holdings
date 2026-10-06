@@ -19,19 +19,47 @@ h1, h2, h3, .hero h1 { font-family: var(--f-app), system-ui, sans-serif; }
 .brickwall, .gallery-main, .product-visual, .about-photo { border-radius: var(--r-lg); }
 .footer { background: var(--night); }
 
-/* ---------- Product rail (homepage, swipeable on phones) ---------- */
-.rail {
-  display: flex; gap: 12px; overflow-x: auto; padding: 18px 16px; scroll-snap-type: x mandatory;
-  scrollbar-width: none; background: var(--paper);
+/* ---------- "Our range" callout under the homepage hero ---------- */
+.range { position: relative; z-index: 2; padding: 20px 0 8px; background: var(--paper); }
+.range-panel { padding: 0; }
+.range-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 0 16px 14px; }
+.range-kicker { display: block; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--brick-ink); }
+.range-head h2 { margin: 4px 0 0; font-size: 22px; letter-spacing: -.5px; line-height: 1.15; }
+.range-all { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; font-size: 14px; font-weight: 700; color: var(--brick-ink); padding: 8px 0; }
+/* Phones: swipeable cards, the next one peeking in so it's obvious there's more */
+.range-track {
+  display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding-left: 16px;
+  padding: 2px 16px 14px; scrollbar-width: none;
 }
-.rail::-webkit-scrollbar { display: none; }
-.rail-item { flex: 0 0 auto; scroll-snap-align: start; display: grid; justify-items: center; gap: 8px; width: 88px; font-size: 12px; font-weight: 650; text-align: center; line-height: 1.25; }
-.rail-img { position: relative; width: 72px; height: 72px; border-radius: 50%; overflow: hidden; background: #c8a16b; box-shadow: 0 0 0 3px var(--paper), 0 0 0 5px var(--brick); }
-.rail-img img { object-fit: cover; }
+.range-track::-webkit-scrollbar { display: none; }
+.range-card {
+  flex: 0 0 148px; scroll-snap-align: start; display: flex; flex-direction: column; overflow: hidden; border-radius: 18px;
+  background: #fff; border: 1px solid var(--line); box-shadow: 0 6px 18px rgba(16, 24, 40, .06);
+  transition: transform .2s, box-shadow .2s, border-color .2s;
+}
+.range-img { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden; background: #e9ece9; }
+.range-img img { object-fit: cover; transition: transform .4s ease; }
+.range-img.is-empty { color: #7d8a83; background: repeating-linear-gradient(135deg, #eef1ee 0 10px, #e6eae6 10px 20px); }
+.range-body { display: grid; gap: 4px; padding: 10px 12px 12px; }
+.range-body b { font-size: 14.5px; line-height: 1.25; }
+.range-body small { display: inline-flex; align-items: center; gap: 5px; font-size: 12.5px; font-weight: 650; color: var(--brick-ink); }
+.range-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(16, 24, 40, .12); border-color: transparent; }
+.range-card:hover .range-img img { transform: scale(1.06); }
+.range-card:hover small svg { transform: translateX(3px); }
+.range-body small svg { transition: transform .2s; }
+
+/* Desktop: a white panel lifted over the bottom edge of the hero, all categories in one row */
 @media (min-width: 900px) {
-  .rail { justify-content: center; gap: 28px; padding: 28px 6vw; }
-  .rail-item { width: 110px; font-size: 13px; }
-  .rail-img { width: 88px; height: 88px; }
+  /* Transparent for the top 64px so the panel visibly sits over the hero photo */
+  .range { padding: 0 6vw 24px; background: linear-gradient(var(--paper), var(--paper)) 0 64px / 100% 100% no-repeat; }
+  .range-panel {
+    margin-top: -64px; padding: 26px 26px 24px; border-radius: 24px; background: #fff;
+    box-shadow: 0 24px 60px rgba(11, 31, 21, .16);
+  }
+  .range-head { padding: 0 2px 18px; }
+  .range-head h2 { font-size: 28px; }
+  .range-track { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; overflow: visible; padding: 0; }
+  .range-card { box-shadow: none; }
 }
 
 /* =====================================================================
@@ -92,8 +120,6 @@ h1, h2 { font-weight: 800; letter-spacing: -1.5px; }
 .actions a { text-align: center; }
 .stats { justify-content: space-between; background: var(--paper); border-radius: 18px; padding: 16px; margin-top: 22px; }
 .stat strong { font-size: 18px; }
-.rail { background: #fff; padding-top: 4px; }
-.rail-img { border-radius: 22px; box-shadow: none; }
 .product { border: 0; box-shadow: 0 1px 2px rgba(16, 24, 40, .05), 0 8px 24px rgba(16, 24, 40, .06); }
 .productimg { margin: 8px 8px 0; border-radius: 14px; }
 .step { border: 0; border-radius: 20px; box-shadow: 0 8px 24px rgba(16, 24, 40, .06); }

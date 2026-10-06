@@ -1,11 +1,9 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCard } from "@/components/ProductCard";
+import { RangeCallout } from "@/components/RangeCallout";
 import { Testimonials } from "@/components/Testimonials";
-import { productImage } from "@/lib/images";
-import { resolveImage } from "@/lib/resolve-image";
 import { products } from "@/lib/products";
 
 const featured = products.slice(0, 3);
@@ -28,17 +26,7 @@ export default function HomePage() {
     <>
       <HeroCarousel />
 
-      <nav className="rail" aria-label="Browse products">
-        {products.map((p) => {
-          const img = resolveImage(productImage(p.slug));
-          return (
-            <Link key={p.slug} href={`/products/${p.slug}`} className="rail-item">
-              <span className="rail-img">{img && <Image src={img} alt="" fill sizes="96px" />}</span>
-              {p.name}
-            </Link>
-          );
-        })}
-      </nav>
+      <RangeCallout />
 
       <section className="section">
         <div className="sectionhead">
