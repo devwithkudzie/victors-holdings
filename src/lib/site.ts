@@ -36,3 +36,14 @@ export const nav = [
 export function whatsappLink(message: string) {
   return `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(message)}`;
 }
+
+/**
+ * Opens WhatsApp. On phones we navigate in the same tab so the WhatsApp app
+ * opens straight away (a new tab often shows the wa.me "Continue to chat" page,
+ * especially inside Facebook/Instagram browsers). On desktop, WhatsApp Web opens in a new tab.
+ */
+export function openWhatsApp(url: string) {
+  const isPhone = window.matchMedia("(pointer: coarse)").matches;
+  if (isPhone) window.location.href = url;
+  else window.open(url, "_blank", "noopener,noreferrer");
+}

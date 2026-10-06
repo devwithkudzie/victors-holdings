@@ -364,3 +364,17 @@ img { max-width: 100%; display: block; }
   .qs-panel { max-width: 520px; max-height: 88vh; border-radius: 20px; }
 }
 @media (prefers-reduced-motion: reduce) { .qs-panel, .qs-scrim { animation: none; } }
+
+/* Quote buttons rendered as <button> */
+button.qty { font-family: inherit; text-align: left; cursor: pointer; background: transparent; color: inherit; }
+button.qty.qty-alt { background: var(--brick); color: var(--on-brick); }
+button.cta-btn { border: 0; font-family: inherit; font-size: 16px; cursor: pointer; }
+.sticky-wa .primary { width: 100%; }
+
+/* Lead form shown inline on a page (product, contact, campaign) */
+.lead-card { background: #fff; border-radius: var(--r-lg, 12px); box-shadow: 0 20px 50px rgba(16, 24, 40, .08); overflow: hidden; }
+.qs-inline { padding: 4px 18px 0; overflow: visible; }
+.qs-inline .qs-foot { position: static; margin: 0 -18px; padding: 14px 18px 18px; }
+.qs-body select {
+  width: 100%; font: inherit; font-size: 16px; padding: 13px 14px; border: 1px solid #d6cfc4; border-radius: 12px; background: #fdfcfa; color: var(--ink);
+}

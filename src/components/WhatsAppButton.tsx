@@ -1,7 +1,7 @@
 "use client";
 
 import { trackWhatsAppClick } from "@/lib/analytics";
-import { whatsappLink } from "@/lib/site";
+import { openWhatsApp, whatsappLink } from "@/lib/site";
 
 type Props = {
   message: string;
@@ -10,14 +10,20 @@ type Props = {
   className?: string;
 };
 
-export function WhatsAppButton({ message, source, children = "Get a Quote on WhatsApp →", className = "primary" }: Props) {
+/** Opens a WhatsApp chat directly (no form). For quote requests use QuoteButton instead. */
+export function WhatsAppButton({ message, source, children = "Chat on WhatsApp", className = "primary" }: Props) {
+  const url = whatsappLink(message);
   return (
     <a
       className={className}
-      href={whatsappLink(message)}
+      href={url}
       target="_blank"
       rel="noopener noreferrer"
-      onClick={() => trackWhatsAppClick(source)}
+      onClick={(e) => {
+        e.preventDefault();
+        trackWhatsAppClick(source);
+        openWhatsApp(url);
+      }}
     >
       {children}
     </a>

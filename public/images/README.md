@@ -12,6 +12,19 @@ photo here with exactly the same name** (delete the old one). `.jpg`, `.jpeg`,
 | `campaign-red-common-bricks-hero` | Campaign page `/red-common-bricks` — top image | Landscape, ~1920 × 1440 |
 | `about` | About page banner | Wide landscape, ~1920 × 1080 |
 
+## Homepage hero carousel — `hero/` folder
+
+Each slide has a **wide photo for desktop** and a **tall photo for phones**:
+
+| Slide | Desktop | Mobile | Picked from |
+|---|---|---|---|
+| Blue Heart | `hero/blue-heart-desktop.jpg` | `hero/blue-heart-mobile.jpg` | `blueheart4` / `blueheart1` |
+| Smooth Red | `hero/smooth-red-desktop.jpg` | `hero/smooth-red-mobile.jpg` | `smoothred2` / `smoothred4` |
+| First Grade Blue Heart | `hero/first-grade-blue-heart-desktop.jpg` | `hero/first-grade-blue-heart-mobile.jpg` | `1gblueheart5` / `1gblueheart6` |
+
+Best size: desktop landscape **1920 × 1080 or larger**, mobile portrait **1080 × 1440**.
+Slide text, taglines and crop positions are in `src/lib/hero.ts` — add an entry there to add a brick type.
+
 ## Product photos — up to 5 per product
 
 Name them `product-<slug>-1` to `product-<slug>-5`:

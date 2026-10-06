@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { EnquiryForm } from "@/components/EnquiryForm";
+import { LeadForm } from "@/components/QuoteSheet";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { site } from "@/lib/site";
 
@@ -17,8 +17,8 @@ export default function ContactPage() {
           <div className="eyebrow">Contact</div>
           <h1>Get a quote.</h1>
           <p className="muted">
-            Tell us what you need, how much and where you&apos;re building. The form opens WhatsApp with your details
-            ready to send.
+            Tell us what you need, how much and where you&apos;re building. The form opens WhatsApp with your request
+            ready to send. Just want to chat? Use the WhatsApp number below.
           </p>
           <div className="contact-list">
             <div>
@@ -33,7 +33,9 @@ export default function ContactPage() {
             </div>
           </div>
         </div>
-        <EnquiryForm source="contact_page" intro="Hi Victors, I'd like a quote." />
+        <div className="lead-card">
+          <LeadForm inline source="contact_page" />
+        </div>
       </div>
     </section>
   );

@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { EnquiryForm } from "@/components/EnquiryForm";
 import { Photo } from "@/components/Photo";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
+import { NOT_SURE } from "@/lib/lead";
 import { images, productGallery } from "@/lib/images";
 import { getProduct } from "@/lib/products";
 
@@ -21,8 +21,7 @@ export const metadata: Metadata = {
 };
 
 const SOURCE = "campaign_red_common_bricks";
-// Opening line tells Victors this WhatsApp lead came from the campaign
-const INTRO = "Hi Victors, I saw your Red Common Bricks ad and I'd like a quote.";
+const REF = "Bricks ad";
 
 const benefits = [
   { title: "Built for real projects", body: "Dependable bricks for foundations, walls and everyday construction." },
@@ -52,7 +51,7 @@ export default function RedCommonBricksCampaign() {
           <p className="lead-strong">Building? Start with the right bricks.</p>
           <p>Quality bricks for residential, commercial and construction projects — delivered to your site.</p>
           <div className="actions">
-            <WhatsAppButton message={INTRO} source={SOURCE} />
+            <QuoteButton category="red-common-bricks" source={SOURCE} leadRef={REF} />
             <a className="secondary" href="#quote">
               Request a quote
             </a>
@@ -99,7 +98,7 @@ export default function RedCommonBricksCampaign() {
           </div>
           <p>Tap Ask to get a quote for a specific brick on WhatsApp.</p>
         </div>
-        <VariantList product={bricks} source={SOURCE} leadRef="Bricks ad" />
+        <VariantList product={bricks} source={SOURCE} leadRef={REF} />
       </section>
 
       <section className="section dark">
@@ -112,24 +111,34 @@ export default function RedCommonBricksCampaign() {
         </div>
         <div className="qty-grid">
           {quantities.map((q) => (
-            <WhatsAppButton
+            <QuoteButton
               key={q}
-              message={`${INTRO}\n\nQuantity: ${q} bricks\nSite location: `}
+              category="red-common-bricks"
+              quantity={`${q} bricks`}
               source={SOURCE}
+              leadRef={REF}
               className="qty"
-            >
-              <strong>{q}</strong>
-              <span>bricks →</span>
-            </WhatsAppButton>
+              label={
+                <>
+                  <strong>{q}</strong>
+                  <span>bricks →</span>
+                </>
+              }
+            />
           ))}
-          <WhatsAppButton
-            message={`${INTRO}\n\nI'm not sure how many bricks I need — can you help me estimate?`}
+          <QuoteButton
+            category="red-common-bricks"
+            quantity={NOT_SURE}
             source={SOURCE}
+            leadRef={REF}
             className="qty qty-alt"
-          >
-            <strong>Not sure?</strong>
-            <span>Help me estimate →</span>
-          </WhatsAppButton>
+            label={
+              <>
+                <strong>Not sure?</strong>
+                <span>Help me estimate →</span>
+              </>
+            }
+          />
         </div>
       </section>
 
@@ -167,18 +176,14 @@ export default function RedCommonBricksCampaign() {
             <h2>Need bricks for your project?</h2>
             <p className="muted">Tell us how many you need and where you&apos;re building.</p>
           </div>
-          <EnquiryForm
-            source={SOURCE}
-            defaultProduct="Red Common Bricks"
-            intro={INTRO}
-            quantityLabel="How many bricks?"
-            submitLabel="Get a Quote on WhatsApp →"
-          />
+          <div className="lead-card">
+            <LeadForm inline category="red-common-bricks" source={SOURCE} leadRef={REF} />
+          </div>
         </div>
       </section>
 
       <div className="sticky-wa">
-        <WhatsAppButton message={INTRO} source={SOURCE} />
+        <QuoteButton category="red-common-bricks" source={SOURCE} leadRef={REF} />
       </div>
     </>
   );

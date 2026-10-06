@@ -1,13 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { trackWhatsAppClick } from "@/lib/analytics";
-import { nav, whatsappLink } from "@/lib/site";
+import { nav } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
 import { IconArrow, IconChat, IconGrid, IconHome, IconMore, IconQuote } from "./icons";
 import { Logo } from "./Logo";
+import { WhatsAppButton } from "./WhatsAppButton";
 
-const WA_MSG = "Hi Victors, I'd like a quote for building materials.";
+const WA_MSG = "Hi Victors Holdings 👋";
 
 /**
  * Slim top bar plus an app-style bottom tab bar on phones
@@ -48,18 +48,13 @@ export function Header({ products }: { products: MenuProduct[] }) {
           <IconGrid />
           Products
         </Link>
-        <a
-          href={whatsappLink(WA_MSG)}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="ha-tab-wa"
-          onClick={() => trackWhatsAppClick("tabbar_app")}
-        >
+        {/* Opens a WhatsApp chat directly — no form */}
+        <WhatsAppButton message={WA_MSG} source="tabbar" className="ha-tab-wa">
           <span>
             <IconChat size={24} />
           </span>
           WhatsApp
-        </a>
+        </WhatsAppButton>
         <Link href="/contact" className={is("/contact") ? "on" : undefined}>
           <IconQuote />
           Quote

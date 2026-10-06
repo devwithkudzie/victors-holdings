@@ -1,11 +1,13 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans, Roboto } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import { site } from "@/lib/site";
 import "./globals.css";
 import "./theme.css";
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--f-body" });
+// WhatsApp's font on Android — used only for the testimonial chat cards
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500"], display: "swap", variable: "--f-wa" });
 const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], display: "swap", variable: "--f-app" });
 
 export const metadata: Metadata = {
@@ -28,7 +30,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jakarta.variable}`}>
+    <html lang="en" className={`${inter.variable} ${jakarta.variable} ${roboto.variable}`}>
       <body>
         {children}
         <Analytics />

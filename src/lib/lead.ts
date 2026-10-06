@@ -1,6 +1,9 @@
 import { site } from "./site";
 
 export const customerTypes = ["Homeowner", "Contractor / Builder", "Developer", "Business / Institution"] as const;
+/** Quantity option for customers who need help working out how much to order */
+export const NOT_SURE = "Not sure — help me estimate";
+
 export const timelines = ["As soon as possible", "This week", "This month", "Just checking prices"] as const;
 
 export type Lead = {

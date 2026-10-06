@@ -31,7 +31,7 @@ export default function ProductsPage() {
       <CtaBand
         title="Can't see what you need?"
         body="Send us your material list and we'll let you know what we can supply."
-        message="Hi Victors, I have a list of materials I'd like a quote for."
+        category="cement-and-roofing"
         source="catalogue_cta"
       />
     </>

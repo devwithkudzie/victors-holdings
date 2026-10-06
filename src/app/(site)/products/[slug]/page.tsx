@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { EnquiryForm } from "@/components/EnquiryForm";
 import { ProductCard } from "@/components/ProductCard";
 import { Gallery } from "@/components/Gallery";
 import { Photo } from "@/components/Photo";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
+import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
 import { productGallery, productImage } from "@/lib/images";
 import { getProduct, products } from "@/lib/products";
 import { site } from "@/lib/site";
@@ -60,7 +59,7 @@ export default async function ProductPage({ params }: Props) {
           <h1>{product.name}</h1>
           <p>{product.description}</p>
           <div className="actions">
-            <WhatsAppButton message={`Hi Victors, I'd like a quote for ${product.name}.`} source={source} />
+            <QuoteButton category={product.slug} source={source} />
             <a className="secondary" href="#enquire">
               Request a quote
             </a>
@@ -137,15 +136,13 @@ export default async function ProductPage({ params }: Props) {
             <div className="eyebrow">Request a quote</div>
             <h2>{product.enquiryPrompt}</h2>
             <p className="muted">
-              Fill this in and it opens WhatsApp with your details ready to send, so Victors has everything needed
-              to quote.
+              Answer a few quick questions and WhatsApp opens with your request ready to send, so Victors has
+              everything needed to quote.
             </p>
           </div>
-          <EnquiryForm
-            source={source}
-            defaultProduct={product.name}
-            intro={`Hi Victors, I'd like a quote for ${product.name}.`}
-          />
+          <div className="lead-card">
+            <LeadForm inline category={product.slug} source={source} />
+          </div>
         </div>
       </section>
 

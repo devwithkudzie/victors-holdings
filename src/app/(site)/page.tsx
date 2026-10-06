@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { CtaBand } from "@/components/CtaBand";
+import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCard } from "@/components/ProductCard";
 import { Testimonials } from "@/components/Testimonials";
-import { Photo } from "@/components/Photo";
-import { WhatsAppButton } from "@/components/WhatsAppButton";
-import { images, productImage } from "@/lib/images";
+import { productImage } from "@/lib/images";
 import { resolveImage } from "@/lib/resolve-image";
 import { products } from "@/lib/products";
 
@@ -27,44 +26,7 @@ const delivery = [
 export default function HomePage() {
   return (
     <>
-      <section className="hero">
-        <div>
-          <div className="eyebrow">Building materials • Mt Hampden, Harare</div>
-          <h1>Build with materials you can count on.</h1>
-          <p>
-            Bricks, sand, stone, cement and roofing for residential, commercial and industrial projects, delivered to
-            your site across Harare and surrounding areas.
-          </p>
-          <div className="actions">
-            <WhatsAppButton message="Hi Victors, I'd like a quote for building materials." source="home_hero" />
-            <Link className="secondary" href="/products">
-              View Products
-            </Link>
-          </div>
-          <div className="stats">
-            <div className="stat">
-              <strong>Reliable</strong>
-              <span>Supply support</span>
-            </div>
-            <div className="stat">
-              <strong>Quality</strong>
-              <span>Construction materials</span>
-            </div>
-            <div className="stat">
-              <strong>Mt Hampden</strong>
-              <span>Harare yard</span>
-            </div>
-          </div>
-        </div>
-        <div className="brickwall">
-          <Photo name={images.homeHero} alt="Bricklayer building a red brick wall" fallback="brick" className="bricks" priority />
-          <div className="brick-overlay" />
-          <Link href="/products/red-common-bricks" className="hero-card">
-            <b>Red Common Bricks</b>
-            <span>Built for everyday construction projects. View product →</span>
-          </Link>
-        </div>
-      </section>
+      <HeroCarousel />
 
       <nav className="rail" aria-label="Browse products">
         {products.map((p) => {

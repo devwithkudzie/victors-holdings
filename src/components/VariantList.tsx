@@ -34,7 +34,6 @@ export function VariantList({ product, source, leadRef }: Props) {
             <AskButton
               product={v.name}
               img={img}
-              quantityOptions={product.quantityOptions}
               source={source}
               leadRef={leadRef}
             />
