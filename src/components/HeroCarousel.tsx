@@ -3,13 +3,11 @@
 import { getImageProps } from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { HERO_FADE_MS, HERO_INTERVAL_MS, heroSlides } from "@/lib/hero";
+import { HERO_FADE_MS, HERO_INTERVAL_MS, type HeroSlide } from "@/lib/hero";
 import { QuoteButton } from "./QuoteSheet";
 
-const BRICK_RANGE_HREF = "/products/red-common-bricks#types";
-
 /** Wide photo on desktop, tall photo on phones, each cropped to fill the hero. */
-function SlidePicture({ slide, priority }: { slide: (typeof heroSlides)[number]; priority: boolean }) {
+function SlidePicture({ slide, priority }: { slide: HeroSlide; priority: boolean }) {
   const common = { alt: slide.alt, fill: true, sizes: "100vw", quality: 80, priority };
   const { props: desktop } = getImageProps({ ...common, src: slide.desktop.src });
   const { props: mobile } = getImageProps({ ...common, src: slide.mobile.src });
@@ -32,12 +30,13 @@ function SlidePicture({ slide, priority }: { slide: (typeof heroSlides)[number];
 }
 
 /**
- * Full-width homepage hero that plays through the brick range like one continuous video:
- * each photo slowly zooms/pans (Ken Burns) and cross-fades into the next.
+ * Full-width homepage hero: a nationwide-delivery slide, then the top brick deals with price labels.
+ * Each photo slowly zooms/pans (Ken Burns) and cross-fades into the next, like one continuous video.
  * Pauses when a control has focus, when the tab is hidden or the visitor presses pause,
  * and stays still for visitors who prefer reduced motion. Swipe to change on phones.
  */
-export function HeroCarousel() {
+export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
+  const heroSlides = slides;
   const count = heroSlides.length;
   const [index, setIndex] = useState(0);
   const [leaving, setLeaving] = useState<number | null>(null);
@@ -94,13 +93,11 @@ export function HeroCarousel() {
     return () => window.clearTimeout(t);
   }, [playing, index, go]);
 
-  const active = heroSlides[index];
-
   return (
     <section
       className={`hc${saveData ? " is-still" : ""}`}
       aria-roledescription="carousel"
-      aria-label="Victors Holdings brick range"
+      aria-label="Bricks on offer"
       onFocus={() => setFocused(true)}
       onBlur={(e) => !e.currentTarget.contains(e.relatedTarget) && setFocused(false)}
       onKeyDown={(e) => {
@@ -126,10 +123,10 @@ export function HeroCarousel() {
         {heroSlides.map((s, i) => (
           <div
             key={s.id}
-            className={`hc-slide kb-${i % 3}${i === index ? " is-active" : ""}${i === leaving ? " is-leaving" : ""}`}
+            className={`hc-slide kb-${i % 3}${s.blurBackground ? " is-blurred" : ""}${i === index ? " is-active" : ""}${i === leaving ? " is-leaving" : ""}`}
             role="group"
             aria-roledescription="slide"
-            aria-label={`${i + 1} of ${count}: ${s.name}`}
+            aria-label={`${i + 1} of ${count}: ${s.kind === "deal" ? s.deal.name : "Nationwide delivery"}`}
             aria-hidden={i !== index}
           >
             {(i <= loadedUpTo || i === index) && <SlidePicture slide={s} priority={i === 0} />}
@@ -156,25 +153,70 @@ export function HeroCarousel() {
       </button>
 
       <div className="hc-content">
-        <p className="hc-brand">Victors Holdings</p>
-        <h1 className="hc-lead">Bricks for your next project.</h1>
-
+        <h1 className="sr-only">Bricks delivered nationwide across Zimbabwe — common bricks, face bricks and pavers</h1>
         <div className="hc-copy-stack" aria-live={playing ? "off" : "polite"}>
           {heroSlides.map((s, i) => (
-            <div key={s.id} className={`hc-copy${i === index ? " is-active" : ""}`} aria-hidden={i !== index}>
-              <p className="hc-name">{s.name}</p>
-              <p className="hc-tagline">{s.tagline}</p>
+            <div key={s.id} className={`hc-copy${i === index ? " is-active" : ""}`} aria-hidden={i !== index} inert={i !== index}>
+              {s.kind === "delivery" ? (
+                <div className="hd-delivery">
+                  <span className="hd-icon" aria-hidden>
+                    <svg viewBox="0 0 24 24" width="30" height="30">
+                      <path
+                        d="M2 7h11v9H2zM13 10h4l4 3v3h-8M5.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <p className="hd-title">Nationwide delivery</p>
+                  <p className="hd-sub">Bricks delivered anywhere in Zimbabwe</p>
+                  <div className="hd-actions">
+                    <QuoteButton source="home_hero_delivery" label="Get a quote" className="hd-btn" />
+                    <a href="#deals-title" className="hd-btn hd-ghost">
+                      See mega deals
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className="hd-deal">
+                  <div className="hd-price">
+                    {s.deal.save && <span className="hd-save">{s.deal.save}</span>}
+                    <span className="hd-unit">{s.deal.unit}</span>
+                    <b>{s.deal.now}</b>
+                  </div>
+                  <div className="hd-panel">
+                    {s.deal.thumb && s.blurBackground && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img className="hd-thumb" src={s.deal.thumb} alt="" width={96} height={96} />
+                    )}
+                    <div className="hd-info">
+                      <p className="hd-name">{s.deal.name}</p>
+                      <p className="hd-now">
+                        {s.deal.was ? (
+                          <>
+                            Now <b>{s.deal.now}</b> <s>was {s.deal.was}</s>
+                          </>
+                        ) : (
+                          <>
+                            <b>{s.deal.now}</b> {s.deal.unit}
+                          </>
+                        )}
+                      </p>
+                    </div>
+                    <div className="hd-actions">
+                      <QuoteButton product={s.deal.name} source={`home_hero_${s.id}`} label="Choose options" className="hd-btn" />
+                      <Link href={s.deal.href} className="hd-btn hd-ghost">
+                        View details
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
-
-        <div className="hc-actions">
-          <Link className="primary" href={BRICK_RANGE_HREF}>
-            Explore Our Brick Range
-          </Link>
-          <QuoteButton product={active.product} source={`home_hero_${active.id}`} label="WhatsApp Us" className="hc-wa" />
-        </div>
-
       </div>
     </section>
   );

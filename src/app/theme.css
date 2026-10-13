@@ -23,7 +23,6 @@ h1, h2, h3, .hero h1 { font-family: var(--f-app), system-ui, sans-serif; }
 .range { position: relative; z-index: 2; padding: 20px 0 8px; background: var(--paper); }
 .range-panel { padding: 0; }
 .range-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 0 16px 14px; }
-.range-kicker { display: block; font-size: 11px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--brick-ink); }
 .range-head h2 { margin: 4px 0 0; font-size: 22px; letter-spacing: -.5px; line-height: 1.15; }
 .range-all { display: inline-flex; align-items: center; gap: 6px; flex: 0 0 auto; font-size: 14px; font-weight: 700; color: var(--brick-ink); padding: 8px 0; }
 /* Phones: swipeable cards, the next one peeking in so it's obvious there's more */
@@ -510,3 +509,153 @@ html { scroll-padding-top: 72px; }
 /* Bot check + hidden trap field */
 .bc-turnstile { margin-top: 12px; display: flex; justify-content: center; }
 .bc-trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+
+/* ---------- Selling-points strip (top of the homepage hero) ---------- */
+.bb { overflow: hidden; background: #14181a; color: #fff; }
+.bb-track { display: flex; width: max-content; animation: bb-scroll 26s linear infinite; }
+.bb:hover .bb-track, .bb:active .bb-track { animation-play-state: paused; }
+.bb-item { display: flex; align-items: center; gap: 12px; padding: 12px 26px; white-space: nowrap; }
+.bb-item svg { flex: 0 0 auto; color: var(--brick); }
+.bb-item span { display: grid; line-height: 1.3; }
+.bb-item b { font-size: 14px; }
+.bb-item small { font-size: 13px; color: #c6ccc8; }
+@keyframes bb-scroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .bb { overflow-x: auto; }
+  .bb-track { animation: none; }
+}
+/* Desktop: everything fits — show the four points side by side, no scrolling */
+@media (min-width: 1000px) {
+  .bb-track { width: 100%; animation: none; justify-content: space-around; padding: 0 4vw; }
+  .bb-item[aria-hidden] { display: none; }
+}
+
+/* ---------- Product tiles (deals + shop by type) ---------- */
+.tile { display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fff; border: 1px solid var(--line); }
+.tile-img { position: relative; display: block; aspect-ratio: 1; background: #eef1ee; overflow: hidden; }
+.tile-img img { object-fit: cover; transition: transform .4s ease; }
+.tile:hover .tile-img img { transform: scale(1.05); }
+.tile-badge {
+  position: absolute; top: 10px; left: 10px; padding: 5px 9px; border-radius: 999px; background: #b42318; color: #fff;
+  font-size: 11.5px; font-weight: 800; letter-spacing: .2px;
+}
+.tile-body { display: grid; gap: 4px; padding: 12px 12px 6px; flex: 1; align-content: start; }
+.tile-type { font-size: 10.5px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: var(--brick-ink); }
+.tile-name { font-size: 14.5px; font-weight: 700; line-height: 1.25; color: var(--ink); }
+.tile-name:hover { text-decoration: underline; }
+.tile-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; margin-top: 2px; font-size: 12.5px; color: var(--muted); }
+.tile-price b { font-size: 14px; color: var(--ink); }
+.tile-price b.is-ask { color: var(--brick-ink); font-size: 13px; }
+.tile-actions { display: grid; gap: 4px; padding: 8px 12px 12px; }
+.tile-cta {
+  min-height: 42px; border: 0; border-radius: 999px; background: var(--brick); color: var(--on-brick);
+  font: 750 14px var(--f-app), sans-serif; cursor: pointer;
+}
+.tile-link { text-align: center; padding: 6px; font-size: 13px; font-weight: 650; color: var(--muted); text-decoration: underline; }
+
+/* Deals: swipeable row */
+.deals-track { display: flex; gap: 12px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 10px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.deals-track::-webkit-scrollbar { display: none; }
+.deals-track .tile { flex: 0 0 62%; scroll-snap-align: start; }
+
+/* Shop by type: tabs + grid */
+.shop-tabs { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px 18px; padding: 0 16px 2px; scrollbar-width: none; }
+.shop-tabs::-webkit-scrollbar { display: none; }
+.shop-tabs button {
+  flex: 0 0 auto; min-height: 44px; padding: 0 16px; border: 1px solid var(--line); border-radius: 999px; background: #fff;
+  font: 650 14px var(--f-app), sans-serif; color: var(--ink); cursor: pointer;
+}
+.shop-tabs button em { font-style: normal; margin-left: 4px; color: var(--muted); font-weight: 600; }
+.shop-tabs button.on { background: var(--night); border-color: var(--night); color: #fff; }
+.shop-tabs button.on em { color: #cfe3d7; }
+.tile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.calc-promo { padding-top: 0; padding-bottom: 0; }
+.home-faq .faq { max-width: none; }
+@media (min-width: 900px) {
+  .deals-track { margin: 0; padding: 0 0 10px; }
+  .deals-track .tile { flex: 0 0 calc(25% - 9px); }
+  .shop-tabs { margin: 0 0 22px; padding: 0; }
+  .tile-grid { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .tile-body { padding: 14px 14px 6px; }
+  .tile-actions { padding: 8px 14px 14px; }
+}
+@media (min-width: 1200px) {
+  .tile-grid { grid-template-columns: repeat(5, 1fr); }
+}
+
+/* ---------- Square corners everywhere ----------
+   Overrides every rounded corner on the site. Only true circles (icons, avatars,
+   spinners) and the WhatsApp chat bubbles in testimonials keep their shape. */
+:root { --r: 0; --r-lg: 0; }
+*, *::before, *::after { border-radius: 0 !important; }
+.t-avatar, .bc-spinner, .bc-tick, .qs-sent-icon, .hc-pause, .qs-close, .bc-steps li span,
+.ha-tab-wa span, .ms-cat em, .hp-dot, .ms-tag button, .pc-zoom button { border-radius: 50% !important; }
+.t-bubble { border-radius: 8px !important; }
+.t-bubble.in.tail { border-top-left-radius: 0 !important; }
+.t-bubble.out.tail { border-top-right-radius: 0 !important; }
+.t-date { border-radius: 8px !important; }
+
+/* "Our range" when it sits in the page flow (not overlapping the hero) */
+.range.is-flat { padding-top: 32px; }
+@media (min-width: 900px) {
+  .range.is-flat { background: var(--paper); padding-top: 48px; }
+  .range.is-flat .range-panel { margin-top: 0; }
+}
+/* Mega brick deals: swipe on phones, show every deal in a grid on desktop */
+.deals { background: #fff; }
+@media (min-width: 900px) {
+  .deals-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; overflow: visible; }
+}
+
+/* Section headings: one large title per section (no small label above) */
+.section-title, .section h2.section-title, .range-head h2.section-title {
+  margin: 0; font-size: clamp(36px, 10vw, 64px); line-height: 1; letter-spacing: -1.5px; font-weight: 800;
+}
+.range-head h2.section-title { font-size: clamp(32px, 8vw, 52px); }
+
+/* ---------- Hero slides: delivery + mega deals with price labels ---------- */
+.hc-slide.is-blurred { inset: -40px; filter: blur(22px) brightness(.55) saturate(1.2); }
+.hc-content { position: relative; z-index: 3; }
+.hd-delivery, .hd-deal { display: grid; gap: 12px; }
+.hd-icon { display: grid; place-items: center; width: 56px; height: 56px; background: var(--brick); color: var(--on-brick); }
+.hd-title {
+  margin: 0; font: 800 clamp(40px, 11vw, 96px)/.95 var(--f-app), sans-serif; letter-spacing: -1.5px; text-transform: uppercase;
+  color: #fff; text-shadow: 0 2px 3px rgba(0, 0, 0, .55), 0 4px 28px rgba(0, 0, 0, .5);
+}
+.hd-sub { margin: 0; font-size: 18px; color: #fff; text-shadow: 0 1px 2px rgba(0, 0, 0, .75), 0 2px 14px rgba(0, 0, 0, .55); }
+.hd-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 4px; }
+.hd-btn {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 16px; border: 0;
+  background: var(--brick); color: var(--on-brick); font: 750 15px var(--f-app), sans-serif; cursor: pointer; text-align: center;
+}
+.hd-ghost { background: rgba(255, 255, 255, .12); color: #fff; border: 1.5px solid rgba(255, 255, 255, .75); }
+.hd-panel .hd-ghost { background: #fff; color: var(--ink); border-color: var(--ink); }
+
+/* Deal: red price badge + white product panel (like a shop window label) */
+.hd-price {
+  justify-self: start; display: grid; justify-items: center; gap: 2px; padding: 12px 22px 14px; background: #c8281c; color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+}
+.hd-save { padding: 3px 10px; background: #fff; color: #c8281c; font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; }
+.hd-unit { font-size: 15px; opacity: .92; }
+.hd-price b { font: 800 clamp(38px, 10vw, 64px)/1 var(--f-app), sans-serif; letter-spacing: -1px; }
+.hd-panel {
+  display: grid; grid-template-columns: auto 1fr; gap: 12px 14px; align-items: center; padding: 16px;
+  background: rgba(255, 255, 255, .94); color: var(--ink); box-shadow: 0 14px 40px rgba(0, 0, 0, .35);
+}
+.hd-thumb { width: 72px; height: 72px; object-fit: cover; }
+.hd-info { grid-column: span 1; min-width: 0; }
+.hd-panel:not(:has(.hd-thumb)) .hd-info { grid-column: 1 / -1; }
+.hd-name { margin: 0; font: 800 clamp(22px, 6vw, 40px)/1.05 var(--f-app), sans-serif; letter-spacing: -.5px; }
+.hd-now { margin: 6px 0 0; font-size: 15px; color: var(--muted); }
+.hd-now b { font-size: 22px; color: #c8281c; }
+.hd-now s { margin-left: 4px; }
+.hd-panel .hd-actions { grid-column: 1 / -1; }
+@media (min-width: 900px) {
+  .hd-delivery, .hd-deal { max-width: 640px; }
+  .hd-actions { grid-template-columns: auto auto; justify-content: start; }
+  .hd-btn { padding: 0 26px; }
+  .hd-panel { padding: 22px 24px; }
+  .hd-thumb { width: 96px; height: 96px; }
+  .hd-sub { font-size: 21px; }
+}

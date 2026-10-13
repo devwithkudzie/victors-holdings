@@ -1,88 +1,65 @@
 import Link from "next/link";
+import { BenefitBar } from "@/components/BenefitBar";
 import { Bento } from "@/components/Bento";
+import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { CtaBand } from "@/components/CtaBand";
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { HomeFaq } from "@/components/HomeFaq";
+import { ProductTile } from "@/components/ProductTile";
 import { RangeCallout } from "@/components/RangeCallout";
+import { ShopByType } from "@/components/ShopByType";
 import { Testimonials } from "@/components/Testimonials";
+import { heroSlides } from "@/lib/hero-slides";
+import { brickTypes, shopItems } from "@/lib/shop";
 
-const benefits = [
-  { title: "Quality materials", body: "Source construction materials with confidence and ask about current availability." },
-  { title: "Reliable supply", body: "Tell us what you need, how much you need and when you need it." },
-  { title: "Delivery support", body: "Arrange the most practical way to get your materials where the project needs them." },
-];
-
-const delivery = [
-  { title: "Tell us what you need", body: "Product, quantity and where you're building — on WhatsApp or through our form." },
-  { title: "Get your quote", body: "We confirm availability, pricing and delivery options." },
-  { title: "Confirm your order", body: "Agree on a delivery date that fits your build schedule." },
-  { title: "Delivered to site", body: "Materials arrive where your project needs them." },
-];
-
+// Homepage layout modelled on leading online brick merchants:
+// selling-points strip → hero → mega brick deals → brick collections (by type) → all materials → tools → proof → about → FAQ
 export default function HomePage() {
+  const items = shopItems();
+  const deals = items.filter((i) => i.save);
+
   return (
     <>
-      <HeroCarousel />
+      <BenefitBar />
+      <HeroCarousel slides={heroSlides()} />
 
-      <RangeCallout />
+      {deals.length > 0 && (
+        <section className="section deals" aria-labelledby="deals-title">
+          <div className="sectionhead">
+            <div>
+              <h2 id="deals-title" className="section-title">Mega brick deals</h2>
+            </div>
+            <p>Every brick with a lower price in our catalogue right now — while stocks last.</p>
+          </div>
+          <div className="deals-track">
+            {deals.map((item) => (
+              <ProductTile key={item.key} item={item} source="home_deals" />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <ShopByType items={items} types={brickTypes} />
+
+      <RangeCallout flat />
+
+      <section className="section section-tight calc-promo">
+        <CalculatorCallout />
+      </section>
 
       <Bento />
 
-      <section className="section dark">
-        <div className="sectionhead">
-          <div>
-            <div className="eyebrow">Why Victors</div>
-            <h2>
-              Less chasing.
-              <br />
-              More building.
-            </h2>
-          </div>
-          <p>
-            Clear information, fast enquiries and a straightforward path from requirement to delivery.
-          </p>
-        </div>
-        <div className="benefits">
-          {benefits.map((b, i) => (
-            <div className="benefit" key={b.title}>
-              <span className="num">{String(i + 1).padStart(2, "0")}</span>
-              <h3>{b.title}</h3>
-              <p>{b.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       <Testimonials />
-
-      <section className="section">
-        <div className="sectionhead">
-          <div>
-            <div className="eyebrow">Delivery</div>
-            <h2>From enquiry to site.</h2>
-          </div>
-          <p>Ordering from Victors is simple. Here&apos;s how it works.</p>
-        </div>
-        <div className="process">
-          {delivery.map((s, i) => (
-            <div className="step" key={s.title}>
-              <b>{String(i + 1).padStart(2, "0")}</b>
-              <h3>{s.title}</h3>
-              <p>{s.body}</p>
-            </div>
-          ))}
-        </div>
-      </section>
 
       <section className="section about-teaser">
         <div className="sectionhead">
           <div>
-            <div className="eyebrow">About Victors</div>
-            <h2>A Mt Hampden supplier built around the builder.</h2>
+            <h2 className="section-title">About Victors</h2>
           </div>
           <div>
             <p>
               From our yard in Mt Hampden, one of Harare&apos;s fastest-growing construction hubs, Victors supplies
-              builders, contractors, developers and homeowners across Harare and surrounding areas.
+              builders, contractors, developers and homeowners nationwide.
             </p>
             <Link className="text-link" href="/about">
               More about us →
@@ -90,6 +67,8 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeFaq />
 
       <CtaBand source="home_cta" />
     </>

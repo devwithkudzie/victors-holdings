@@ -1,52 +1,35 @@
-/**
- * Homepage hero carousel slides. To add a brick type, add an entry here
- * and put its photos in /public/images/hero/.
- *
- * desktop: a wide (landscape) photo works best · mobile: a tall (portrait) photo.
- * position: which part of the photo stays in view when it's cropped (CSS object-position).
- */
+/** Homepage hero carousel — shared types and timing (safe to import in the browser) */
+
+export type HeroImage = { src: string; position?: string };
+
 export type HeroSlide = {
   id: string;
-  name: string;
-  tagline: string;
-  /** Exact catalogue item name — preselected when the customer taps "WhatsApp Us" */
-  product: string;
   alt: string;
-  desktop: { src: string; position?: string };
-  mobile: { src: string; position?: string };
-};
+  desktop: HeroImage;
+  mobile: HeroImage;
+  /** Background is a small catalogue photo: shown blurred, with the sharp photo in the price card */
+  blurBackground?: boolean;
+} & (
+  | { kind: "delivery" }
+  | {
+      kind: "deal";
+      deal: {
+        name: string;
+        /** e.g. "US$100" */
+        now: string;
+        /** e.g. "per 1,000 bricks" */
+        unit: string;
+        /** Previous price and saving — only for discounted bricks */
+        was?: string;
+        /** e.g. "Save 35%" */
+        save?: string;
+        href: string;
+        thumb?: string;
+      };
+    }
+);
 
-export const heroSlides: HeroSlide[] = [
-  {
-    id: "blue-heart",
-    name: "Blue Heart",
-    tagline: "A trusted choice for your next build.",
-    product: "Blue Heart Red Common Bricks",
-    alt: "Pallets of Blue Heart red common bricks at the Victors Holdings yard",
-    desktop: { src: "/images/hero/blue-heart-desktop.jpg", position: "50% 55%" },
-    mobile: { src: "/images/hero/blue-heart-mobile.jpg", position: "50% 30%" },
-  },
-  {
-    id: "smooth-red",
-    name: "Smooth Red",
-    tagline: "A clean finish for your construction project.",
-    product: "Smooth Red Common Bricks",
-    alt: "Smooth Red common bricks stacked on pallets, supplied by Victors Holdings",
-    desktop: { src: "/images/hero/smooth-red-desktop.jpg", position: "60% 45%" },
-    mobile: { src: "/images/hero/smooth-red-mobile.jpg", position: "50% 35%" },
-  },
-  {
-    id: "first-grade-blue-heart",
-    name: "First Grade Blue Heart",
-    tagline: "For projects where finish and presentation matter.",
-    product: "First Grade Blue Heart Red Common Bricks",
-    alt: "A pallet of First Grade Blue Heart red common bricks",
-    desktop: { src: "/images/hero/first-grade-blue-heart-desktop.jpg", position: "50% 18%" },
-    mobile: { src: "/images/hero/first-grade-blue-heart-mobile.jpg", position: "50% 35%" },
-  },
-];
-
-/** How long each photo plays before cutting to the next */
-export const HERO_INTERVAL_MS = 5500;
-/** Cross-fade length between photos */
+/** How long each slide plays before the next */
+export const HERO_INTERVAL_MS = 6500;
+/** Cross-fade length between slides */
 export const HERO_FADE_MS = 600;

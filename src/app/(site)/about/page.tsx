@@ -5,7 +5,7 @@ import { images } from "@/lib/images";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, delivered across Harare and surrounding areas.",
+  description: "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, with nationwide delivery across Zimbabwe.",
   alternates: { canonical: "/about" },
 };
 
@@ -44,7 +44,7 @@ export default function AboutPage() {
           </p>
           <p>
             Our commitment is reliable products, excellent customer service and timely supply to builders,
-            contractors, developers and homeowners across Harare and surrounding areas. Mt Hampden is a growing
+            contractors, developers and homeowners across Zimbabwe, with nationwide delivery. Mt Hampden is a growing
             construction hub, and we&apos;re proud to be the local supplier helping new developments get built.
           </p>
         </div>

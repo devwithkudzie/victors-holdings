@@ -20,7 +20,7 @@ export function BusinessJsonLd() {
       addressRegion: site.address.region,
       addressCountry: site.address.country,
     },
-    areaServed: [{ "@type": "City", name: "Harare" }, { "@type": "Country", name: "Zimbabwe" }],
+    areaServed: { "@type": "Country", name: "Zimbabwe" },
     // Product range with catalogue prices (US$, excluding delivery)
     hasOfferCatalog: {
       "@type": "OfferCatalog",

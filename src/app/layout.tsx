@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | Victors Holdings",
   },
   description:
-    "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, delivered across Harare and surrounding areas.",
+    "Trusted building materials supplier in Mt Hampden, Harare. Bricks, cement, quarry stones, river and pit sand, aggregates and roofing for residential, commercial and industrial projects, with nationwide delivery across Zimbabwe.",
   openGraph: { siteName: site.name, locale: "en_ZW", type: "website" },
 };
 

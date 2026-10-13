@@ -1,7 +1,7 @@
 import { site } from "@/lib/site";
 import { deliveredTo, displayName, testimonials } from "@/lib/testimonials";
 
-type Props = { title?: string; eyebrow?: string };
+type Props = { title?: string };
 
 const Ticks = () => (
   <svg className="t-ticks" viewBox="0 0 16 11" width="16" height="11" aria-label="Read">
@@ -11,13 +11,12 @@ const Ticks = () => (
 );
 
 /** Customer WhatsApp messages, recreated in WhatsApp's dark theme (no screenshots, no personal details). */
-export function Testimonials({ eyebrow = "What customers say", title = "Delivered. Thanked. Ordered again." }: Props) {
+export function Testimonials({ title = "What customers say" }: Props) {
   return (
     <section className="section testimonials">
       <div className="sectionhead">
         <div>
-          <div className="eyebrow">{eyebrow}</div>
-          <h2>{title}</h2>
+          <h2 className="section-title">{title}</h2>
         </div>
         <p>Real messages from Victors customers on WhatsApp, shared as they were sent.</p>
       </div>

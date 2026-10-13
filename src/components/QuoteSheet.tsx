@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { trackLead } from "@/lib/analytics";
 import { buildLeadMessage, customerTypes, NOT_SURE, timelines, type Lead } from "@/lib/lead";
+import { estimatePrice } from "@/lib/price-estimate";
 import { products } from "@/lib/products";
 import { openWhatsApp, whatsappLink } from "@/lib/site";
 import { useMenu } from "@/lib/useMenu";
@@ -58,7 +59,12 @@ export function LeadForm({
   const [notes, setNotes] = useState("");
 
   const qty = quantity === "custom" ? customQty.trim() : quantity;
-  const lead: Lead = { products: productNames, quantity: qty, delivery, location: location.trim(), timeline, customerType, name: name.trim(), notes, ref: leadRef };
+  // Live price estimate from the catalogue (one product, a quantity in its price unit)
+  const priced = selected.length === 1 ? estimatePrice(selected[0], qty) : null;
+  const lead: Lead = {
+    products: productNames,
+    estimate: priced ? `${priced.total} (${priced.working})` : undefined,
+    estimateNote: priced?.note, quantity: qty, delivery, location: location.trim(), timeline, customerType, name: name.trim(), notes, ref: leadRef };
   const message = buildLeadMessage(lead);
   const [tried, setTried] = useState(false);
   const root = useRef<HTMLDivElement>(null);
@@ -195,6 +201,17 @@ export function LeadForm({
         <textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Anything else? (optional)" rows={1} />
       </fieldset>
 
+      {priced && (
+        <div className="qs-estimate" aria-live="polite">
+          <span>Estimated price</span>
+          <b>{priced.total}</b>
+          <small>
+            {priced.working} · excl. delivery
+            {priced.note && <em>{priced.note}</em>}
+          </small>
+        </div>
+      )}
+
       <div className="qs-foot">
         {tried && firstMissing && <p className="qs-missing">Please answer the questions marked Required</p>}
         <button type="button" className="qs-send" onClick={send}>
@@ -230,9 +247,9 @@ export function QuoteButton({ label = "Get a Quote on WhatsApp →", className =
   );
 }
 
-/** "Ask" button on catalogue items. */
+/** "Choose options" button on catalogue items: opens the quote form for that exact product. */
 export function AskButton(props: QuoteButtonProps) {
-  return <QuoteButton label="Ask" className="variant-ask" {...props} />;
+  return <QuoteButton label="Choose options" className="variant-ask" {...props} />;
 }
 
 function QuoteSheet({ img, onClose, ...form }: LeadFormProps & { img?: string; onClose: () => void }) {

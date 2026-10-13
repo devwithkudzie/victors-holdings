@@ -16,6 +16,10 @@ export type Lead = {
   customerType: string;
   name: string;
   notes?: string;
+  /** Indicative cost from catalogue prices, e.g. "US$500.00 (5,000 × US$100.00 per 1,000)" */
+  estimate?: string;
+  /** e.g. "Minimum order is 5,000 bricks (US$500.00)" */
+  estimateNote?: string;
   /** Where the lead came from, e.g. "Bricks ad" — shown at the bottom so Victors can attribute it */
   ref?: string;
 };
@@ -26,13 +30,15 @@ export type Lead = {
  */
 export function buildLeadMessage(lead: Lead) {
   const lines = [
-    "Hi Victors Holdings 👋",
+    "Hi Victors Holdings,",
     "I'd like a quote for:",
     "",
     ...(lead.products.length > 1
       ? ["*Products:*", ...lead.products.map((p) => `• ${p}`)]
       : [`*Product:* ${lead.products[0] ?? ""}`]),
     `*Quantity:* ${lead.quantity}`,
+    ...(lead.estimate ? [`*Estimated price:* ${lead.estimate}, excl. delivery`] : []),
+    ...(lead.estimateNote ? [`*Note:* ${lead.estimateNote}`] : []),
     lead.delivery === "deliver" ? `*Delivery:* Deliver to ${lead.location}` : "*Delivery:* I'll collect",
     `*Needed:* ${lead.timeline}`,
     `*I am a:* ${lead.customerType}`,

@@ -27,7 +27,11 @@ export const faqs: { q: string; a: string }[] = [
   },
   {
     q: "Do you deliver?",
-    a: "Yes. We deliver to sites across Harare and surrounding areas, and further afield on request. Customers have had bricks delivered as far as Kadoma and Mt Darwin. Tell us your site location when you ask for a quote and we'll confirm the delivery cost and timing.",
+    a: "Yes — we deliver nationwide across Zimbabwe from our Mt Hampden yard. Customers have had bricks delivered from Harare to Kadoma and Mt Darwin. Tell us your site location when you ask for a quote and we'll confirm the delivery cost and timing.",
+  },
+  {
+    q: "How do I pay?",
+    a: "You can pay on delivery — pay when your materials arrive at your site. We confirm the total, including delivery, before we dispatch.",
   },
   {
     q: "How much do your bricks cost?",

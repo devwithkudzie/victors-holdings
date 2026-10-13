@@ -4,15 +4,17 @@ import { productImage } from "@/lib/images";
 import { products } from "@/lib/products";
 import { resolveImage } from "@/lib/resolve-image";
 
-/** "Browse our range" callout under the homepage hero: one card per product category. */
-export function RangeCallout() {
+/**
+ * "Browse our range": one card per product category.
+ * flat: sits in the page flow instead of overlapping the section above.
+ */
+export function RangeCallout({ flat = false }: { flat?: boolean }) {
   return (
-    <section className="range" aria-labelledby="range-title">
+    <section className={`range${flat ? " is-flat" : ""}`} aria-labelledby="range-title">
       <div className="range-panel">
         <div className="range-head">
           <div>
-            <span className="range-kicker">Our range</span>
-            <h2 id="range-title">Everything for your build</h2>
+            <h2 id="range-title" className="section-title">Our range</h2>
           </div>
           <Link href="/products" className="range-all">
             See all products

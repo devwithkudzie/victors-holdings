@@ -95,10 +95,9 @@ export default function RedCommonBricksCampaign() {
       <section className="section section-tight">
         <div className="sectionhead">
           <div>
-            <div className="eyebrow">Our bricks</div>
-            <h2>Pick your brick.</h2>
+            <h2 className="section-title">Our bricks</h2>
           </div>
-          <p>Tap Ask to get a quote for a specific brick on WhatsApp.</p>
+          <p>Tap Choose options to get a quote for a specific brick on WhatsApp.</p>
         </div>
         <VariantList product={bricks} source={SOURCE} leadRef={REF} />
         <CalculatorCallout />
@@ -107,8 +106,7 @@ export default function RedCommonBricksCampaign() {
       <section className="section dark">
         <div className="sectionhead">
           <div>
-            <div className="eyebrow">Quantities</div>
-            <h2>How many bricks do you need?</h2>
+            <h2 className="section-title">Quantities</h2>
           </div>
           <p>Tap your quantity to start a WhatsApp quote. Not sure yet? Send us your plan and we&apos;ll help estimate.</p>
         </div>
@@ -148,16 +146,15 @@ export default function RedCommonBricksCampaign() {
       <section className="section">
         <div className="split">
           <div>
-            <div className="eyebrow">Delivery</div>
-            <h2>Delivered where you&apos;re building.</h2>
+            <h2 className="section-title">Delivery</h2>
             <p className="muted">
-              We deliver from our Mt Hampden yard to sites across Harare and surrounding areas, and customers have
-              had bricks delivered as far as Kadoma and Mt Darwin. Share your location when you enquire and we&apos;ll
+              We deliver nationwide from our Mt Hampden yard — customers have had bricks delivered from Harare to
+              Kadoma and Mt Darwin. Pay when your bricks arrive. Share your location when you enquire and we&apos;ll
               confirm delivery cost and timing with your quote.
             </p>
           </div>
           <div>
-            <div className="eyebrow">Who it&apos;s for</div>
+            <h2 className="section-title">Who it&apos;s for</h2>
             <div className="audiences">
               {audiences.map((a) => (
                 <div key={a.title}>
@@ -170,13 +167,12 @@ export default function RedCommonBricksCampaign() {
         </div>
       </section>
 
-      <Testimonials eyebrow="Customers on WhatsApp" title="Bricks delivered. Customers happy." />
+      <Testimonials title="Customers on WhatsApp" />
 
       <section className="section enquire-section" id="quote">
         <div className="enquire-grid">
           <div>
-            <div className="eyebrow">Get a quote</div>
-            <h2>Need bricks for your project?</h2>
+            <h2 className="section-title">Get a quote</h2>
           </div>
           <div className="lead-card">
             <LeadForm inline category="red-common-bricks" source={SOURCE} leadRef={REF} />

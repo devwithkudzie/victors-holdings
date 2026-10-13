@@ -19,7 +19,7 @@ export const site = {
   // From Victors' Google Business Profile — keep in sync with it
   location: "Mt Hampden, Harare",
   address: { locality: "Mt Hampden", region: "Harare", country: "ZW" },
-  delivery: "Delivering across Harare and surrounding areas, and further afield on request",
+  delivery: "Nationwide delivery across Zimbabwe, with payment on delivery",
   googleReviewUrl: "https://g.page/r/CSsjOuMG0hMBEBM/review",
   // Digits only, international format. Override with NEXT_PUBLIC_WHATSAPP_NUMBER.
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "263782086781",

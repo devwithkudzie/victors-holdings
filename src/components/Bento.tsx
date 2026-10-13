@@ -17,8 +17,7 @@ export function Bento() {
     <section className="section bento-section">
       <div className="sectionhead">
         <div>
-          <div className="eyebrow">Victors at a glance</div>
-          <h2>Bricks, delivery and more.</h2>
+          <h2 className="section-title">Victors at a glance</h2>
         </div>
       </div>
 
@@ -37,7 +36,7 @@ export function Bento() {
 
         <div className="bt bt-green bt-delivery">
           <small>Delivery</small>
-          <b>Delivered across Harare &amp; surrounding areas</b>
+          <b>Nationwide delivery across Zimbabwe</b>
           <div className="bt-chips">
             {deliveredTo.map((a) => (
               <span key={a}>{a}</span>

@@ -83,8 +83,7 @@ export default async function ProductPage({ params }: Props) {
       <section className="section section-tight" id="types">
         <div className="sectionhead">
           <div>
-            <div className="eyebrow">{product.variants.length > 1 ? `${product.variants.length} options` : "Available"}</div>
-            <h2>{product.variants.length > 1 ? `Choose your ${product.name.toLowerCase()}` : product.name}</h2>
+            <h2 className="section-title">{product.variants.length > 1 ? `${product.variants.length} options` : "Available"}</h2>
           </div>
         </div>
         <VariantList product={product} source={source} />
@@ -116,8 +115,7 @@ export default async function ProductPage({ params }: Props) {
         <section className="section">
           <div className="sectionhead">
             <div>
-              <div className="eyebrow">How we work</div>
-              <h2>A finished surface starts underneath.</h2>
+              <h2 className="section-title">How we work</h2>
             </div>
           </div>
           <div className="process">
@@ -137,8 +135,7 @@ export default async function ProductPage({ params }: Props) {
       <section className="section enquire-section" id="enquire">
         <div className="enquire-grid">
           <div>
-            <div className="eyebrow">{product.name}</div>
-            <h2>Get a quote</h2>
+            <h2 className="section-title">Get a quote</h2>
           </div>
           <div className="lead-card">
             <LeadForm inline category={product.slug} source={source} />
@@ -149,8 +146,7 @@ export default async function ProductPage({ params }: Props) {
       <section className="section">
         <div className="sectionhead">
           <div>
-            <div className="eyebrow">More from Victors</div>
-            <h2>Other products</h2>
+            <h2 className="section-title">More from Victors</h2>
           </div>
         </div>
         <div className="products">

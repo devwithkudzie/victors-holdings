@@ -49,7 +49,7 @@ export function VariantList({ product, source, leadRef }: Props) {
         );
       })}
       <p className="variants-note">
-        Prices from our WhatsApp catalogue ({PRICES_AS_OF}). Prices can change, and delivery is extra — tap Ask and Victors will
+        Prices from our WhatsApp catalogue ({PRICES_AS_OF}). Prices can change, and delivery is extra — tap Choose options and Victors will
         confirm the price and delivery cost for your order.
       </p>
     </div>

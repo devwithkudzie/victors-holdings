@@ -55,7 +55,7 @@ export const products: Product[] = [
     ],
     highlights: [
       { title: "Consistent supply", body: "Order for a single build or schedule supply across a project." },
-      { title: "Delivered to site", body: "Delivery across Harare and surrounding areas, from our Mt Hampden yard." },
+      { title: "Delivered to site", body: "Nationwide delivery from our Mt Hampden yard — pay when your order arrives." },
       { title: "Fast quotes", body: "Send your quantity on WhatsApp and get a response without chasing." },
     ],
     enquiryPrompt: "How many bricks do you need, and where is the site?",
@@ -141,7 +141,7 @@ export const products: Product[] = [
       { title: "Bundle with bricks", body: "Order alongside bricks for one coordinated delivery." },
     ],
     enquiryPrompt: "How much sand do you need, and where is the site?",
-    quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
+    quantityOptions: ["5 m³", "10 m³", "20 m³", "30+ m³"],
     variants: [
       { slug: "river-sand", name: "River Sand", note: "Available in stock", price: 16, unit: "per-m3" },
       { slug: "pit-sand", name: "Pit Sand" },
@@ -162,7 +162,7 @@ export const products: Product[] = [
       { title: "One supplier", body: "Combine with bricks and sand to simplify your ordering." },
     ],
     enquiryPrompt: "Which quarry product do you need, and how much?",
-    quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
+    quantityOptions: ["5 m³", "10 m³", "20 m³", "30+ m³"],
     variants: [
       { slug: "quarry-stones", name: "Quarry Stones / Aggregates", note: "For concrete, slabs and foundations", price: 20, unit: "per-m3" },
       { slug: "quarry-dust", name: "Quarry Dust", price: 20, unit: "per-m3" },
