@@ -1,8 +1,18 @@
+/** How a price is charged */
+export type PriceUnit = "per-1000" | "each" | "per-m2" | "per-m3";
+
 /** One specific item from Victors' WhatsApp catalogue, e.g. "Blue Heart Red Common Bricks". */
 export type Variant = {
   slug: string;
   name: string;
   note?: string;
+  /** Price in US$ from the WhatsApp catalogue (omit for "ask for price") */
+  price?: number;
+  /** Previous price, shown crossed out */
+  was?: number;
+  unit?: PriceUnit;
+  /** Minimum order quantity (bricks) */
+  minOrder?: number;
 };
 
 /** A product category with its own page at /products/<slug>. */
@@ -25,7 +35,8 @@ export type Product = {
 };
 
 // Product range from Victors' WhatsApp catalogue + Google Business Profile.
-// No prices on the site: Victors' prices change often, so customers ask for today's price on WhatsApp.
+// Prices come from Victors' WhatsApp catalogue — update them here when the catalogue changes,
+// and update PRICES_AS_OF in src/lib/pricing.ts.
 
 export const products: Product[] = [
   {
@@ -50,11 +61,11 @@ export const products: Product[] = [
     enquiryPrompt: "How many bricks do you need, and where is the site?",
     quantityOptions: ["5,000 bricks", "10,000 bricks", "20,000 bricks", "50,000+ bricks"],
     variants: [
-      { slug: "blue-heart-red-common-bricks", name: "Blue Heart Red Common Bricks", note: "Minimum order 5,000 bricks" },
-      { slug: "smooth-red-common-bricks", name: "Smooth Red Common Bricks", note: "Special offer" },
-      { slug: "first-grade-blue-heart-red-common-bricks", name: "First Grade Blue Heart Red Common Bricks", note: "First grade quality" },
-      { slug: "load-bearing-bricks", name: "Load Bearing Bricks", note: "Original certified load-bearing bricks" },
-      { slug: "farm-bricks", name: "Farm Bricks (Semi Common)", note: "Build with confidence" },
+      { slug: "blue-heart-red-common-bricks", name: "Blue Heart Red Common Bricks", note: "Minimum order 5,000 bricks", price: 100, was: 155, unit: "per-1000", minOrder: 5000 },
+      { slug: "smooth-red-common-bricks", name: "Smooth Red Common Bricks", note: "Special offer", price: 100, unit: "per-1000" },
+      { slug: "first-grade-blue-heart-red-common-bricks", name: "First Grade Blue Heart Red Common Bricks", note: "First grade quality", price: 115, was: 120, unit: "per-1000" },
+      { slug: "load-bearing-bricks", name: "Load Bearing Bricks", note: "Original certified load-bearing bricks", price: 165, was: 220, unit: "per-1000" },
+      { slug: "farm-bricks", name: "Farm Bricks (Semi Common)", note: "Build with confidence", price: 65, was: 80, unit: "per-1000" },
     ],
   },
   {
@@ -74,16 +85,16 @@ export const products: Product[] = [
     enquiryPrompt: "Which face brick do you like, and how many do you need?",
     quantityOptions: ["1,000 bricks", "5,000 bricks", "10,000 bricks", "20,000+ bricks"],
     variants: [
-      { slug: "original-blue-heart-face-bricks", name: "Original Blue Heart Face Bricks" },
-      { slug: "red-rustic-face-bricks", name: "Red Rustic Face Bricks", note: "In stock" },
-      { slug: "blue-rustic-face-bricks", name: "Blue Rustic Face Bricks", note: "In stock" },
-      { slug: "plum-brown-rustic-face-bricks", name: "Plum Brown Rustic Face Bricks", note: "In stock" },
-      { slug: "botswana-full-granite-face-bricks", name: "Botswana Full Granite Face Bricks", note: "In stock" },
-      { slug: "botswana-travertine-rough-face-bricks", name: "Botswana Travertine Rough Surface" },
-      { slug: "botswana-satin-smooth-face-bricks", name: "Botswana Satin Smooth Surface" },
-      { slug: "blue-rustic-multi", name: "Blue Rustic Multi" },
-      { slug: "splashed-rustics", name: "Splashed Rustics" },
-      { slug: "plum-brown-smooth-face-bricks", name: "Plum Brown Smooth Surface" },
+      { slug: "original-blue-heart-face-bricks", name: "Original Blue Heart Face Bricks", price: 0.38, was: 0.45, unit: "each" },
+      { slug: "red-rustic-face-bricks", name: "Red Rustic Face Bricks", note: "In stock", price: 0.35, unit: "each" },
+      { slug: "blue-rustic-face-bricks", name: "Blue Rustic Face Bricks", note: "In stock", price: 0.9, unit: "each" },
+      { slug: "plum-brown-rustic-face-bricks", name: "Plum Brown Rustic Face Bricks", note: "In stock", price: 0.58, was: 0.6, unit: "each" },
+      { slug: "botswana-full-granite-face-bricks", name: "Botswana Full Granite Face Bricks", note: "In stock", price: 0.48, unit: "each" },
+      { slug: "botswana-travertine-rough-face-bricks", name: "Botswana Travertine Rough Surface", price: 0.45, unit: "each" },
+      { slug: "botswana-satin-smooth-face-bricks", name: "Botswana Satin Smooth Surface", price: 0.45, unit: "each" },
+      { slug: "blue-rustic-multi", name: "Blue Rustic Multi", price: 700, was: 750, unit: "per-1000" },
+      { slug: "splashed-rustics", name: "Splashed Rustics", price: 400, unit: "per-1000" },
+      { slug: "plum-brown-smooth-face-bricks", name: "Plum Brown Smooth Surface", price: 580, was: 600, unit: "per-1000" },
     ],
   },
   {
@@ -109,10 +120,10 @@ export const products: Product[] = [
       { title: "Finish", body: "Compact and finish the surface for a clean final result." },
     ],
     variants: [
-      { slug: "interlocking-pavers", name: "Interlocking Pavers", note: "In stock" },
-      { slug: "holland-pavers", name: "Holland Pavers", note: "In stock" },
-      { slug: "paving-services", name: "Paving Services", note: "Upgrade your outdoor space" },
-      { slug: "half-brick-paving", name: "Paving With Half Bricks", note: "Half-brick paving specialists" },
+      { slug: "interlocking-pavers", name: "Interlocking Pavers", note: "In stock", price: 0.18, unit: "each" },
+      { slug: "holland-pavers", name: "Holland Pavers", note: "In stock", price: 0.18, unit: "each" },
+      { slug: "paving-services", name: "Paving Services", note: "Upgrade your outdoor space", price: 3.2, unit: "per-m2" },
+      { slug: "half-brick-paving", name: "Paving With Half Bricks", note: "Half-brick paving specialists", price: 12.3, was: 13, unit: "per-m2" },
     ],
   },
   {
@@ -132,7 +143,7 @@ export const products: Product[] = [
     enquiryPrompt: "How much sand do you need, and where is the site?",
     quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
     variants: [
-      { slug: "river-sand", name: "River Sand", note: "Available in stock" },
+      { slug: "river-sand", name: "River Sand", note: "Available in stock", price: 16, unit: "per-m3" },
       { slug: "pit-sand", name: "Pit Sand" },
     ],
   },
@@ -153,9 +164,9 @@ export const products: Product[] = [
     enquiryPrompt: "Which quarry product do you need, and how much?",
     quantityOptions: ["1 load", "2 loads", "3–5 loads", "6+ loads"],
     variants: [
-      { slug: "quarry-stones", name: "Quarry Stones / Aggregates", note: "For concrete, slabs and foundations" },
-      { slug: "quarry-dust", name: "Quarry Dust" },
-      { slug: "crusher-run", name: "Crusher Run", note: "Mixture of quarry dust and crushed stone" },
+      { slug: "quarry-stones", name: "Quarry Stones / Aggregates", note: "For concrete, slabs and foundations", price: 20, unit: "per-m3" },
+      { slug: "quarry-dust", name: "Quarry Dust", price: 20, unit: "per-m3" },
+      { slug: "crusher-run", name: "Crusher Run", note: "Mixture of quarry dust and crushed stone", price: 20, unit: "per-m3" },
     ],
   },
   {

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { money, priceLabel, PRICES_AS_OF } from "@/lib/pricing";
 import type { Product } from "@/lib/products";
 import { resolveImage } from "@/lib/resolve-image";
 import { Swatch } from "./Swatch";
@@ -29,7 +30,14 @@ export function VariantList({ product, source, leadRef }: Props) {
             <div className="variant-body">
               <h3>{v.name}</h3>
               {v.note && <p>{v.note}</p>}
-              <span className="variant-price">Ask for today&apos;s price</span>
+              {v.price != null ? (
+                <span className="variant-price">
+                  <b>{priceLabel(v)}</b>
+                  {v.was != null && <s>{money(v.was)}</s>}
+                </span>
+              ) : (
+                <span className="variant-price is-ask">Ask for price</span>
+              )}
             </div>
             <AskButton
               product={v.name}
@@ -40,7 +48,10 @@ export function VariantList({ product, source, leadRef }: Props) {
           </article>
         );
       })}
-      <p className="variants-note">Prices change often. Tap Ask to get today&apos;s price and delivery cost on WhatsApp.</p>
+      <p className="variants-note">
+        Prices from our WhatsApp catalogue ({PRICES_AS_OF}). Prices can change, and delivery is extra — tap Ask and Victors will
+        confirm the price and delivery cost for your order.
+      </p>
     </div>
   );
 }

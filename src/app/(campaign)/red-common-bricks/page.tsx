@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Photo } from "@/components/Photo";
+import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
@@ -68,6 +69,7 @@ export default function RedCommonBricksCampaign() {
       </section>
 
       <section className="section section-tight">
+        <h2 className="sr-only">Why choose our bricks</h2>
         <div className="benefit-row">
           {benefits.map((b) => (
             <div key={b.title}>
@@ -99,6 +101,7 @@ export default function RedCommonBricksCampaign() {
           <p>Tap Ask to get a quote for a specific brick on WhatsApp.</p>
         </div>
         <VariantList product={bricks} source={SOURCE} leadRef={REF} />
+        <CalculatorCallout />
       </section>
 
       <section className="section dark">

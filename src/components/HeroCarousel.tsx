@@ -46,14 +46,20 @@ export function HeroCarousel() {
   const [focused, setFocused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
   const [tabHidden, setTabHidden] = useState(false);
+  /** Phone's data-saver mode: show the first photo only, no autoplay or movement */
+  const [saveData, setSaveData] = useState(false);
+  /** Photos are only loaded once they're next in line, so visitors don't download all of them upfront */
+  const [loadedUpTo, setLoadedUpTo] = useState(0);
   const touchX = useRef<number | null>(null);
 
   const go = useCallback((i: number) => setIndex(((i % count) + count) % count), [count]);
-  const playing = !userPaused && !focused && !reducedMotion && !tabHidden;
+  const playing = !userPaused && !focused && !reducedMotion && !tabHidden && !saveData;
 
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
+    const conn = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    setSaveData(!!conn?.saveData);
     const onMq = () => setReducedMotion(mq.matches);
     const onVis = () => setTabHidden(document.hidden);
     mq.addEventListener("change", onMq);
@@ -63,6 +69,15 @@ export function HeroCarousel() {
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
+
+  // Preload the next photo once the current one is showing (not on data-saver)
+  useEffect(() => {
+    const next = saveData ? index : Math.min(index + 1, count - 1);
+    if (next > loadedUpTo) {
+      const t = window.setTimeout(() => setLoadedUpTo(next), index === 0 ? 1500 : 0);
+      return () => window.clearTimeout(t);
+    }
+  }, [index, saveData, loadedUpTo, count]);
 
   // Keep the outgoing photo moving while it fades out, so the cut feels like continuous footage
   useEffect(() => {
@@ -83,7 +98,7 @@ export function HeroCarousel() {
 
   return (
     <section
-      className="hc"
+      className={`hc${saveData ? " is-still" : ""}`}
       aria-roledescription="carousel"
       aria-label="Victors Holdings brick range"
       onFocus={() => setFocused(true)}
@@ -117,7 +132,7 @@ export function HeroCarousel() {
             aria-label={`${i + 1} of ${count}: ${s.name}`}
             aria-hidden={i !== index}
           >
-            <SlidePicture slide={s} priority={i === 0} />
+            {(i <= loadedUpTo || i === index) && <SlidePicture slide={s} priority={i === 0} />}
           </div>
         ))}
         <div className="hc-overlay" aria-hidden />

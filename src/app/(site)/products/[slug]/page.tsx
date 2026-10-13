@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { Gallery } from "@/components/Gallery";
 import { Photo } from "@/components/Photo";
+import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
@@ -36,13 +37,15 @@ export default async function ProductPage({ params }: Props) {
   const photos = productGallery(product.slug);
   const others = products.filter((p) => p.slug !== product.slug).slice(0, 3);
   const source = `product_${product.slug.replace(/-/g, "_")}`;
+  // Breadcrumbs for search engines (the product range itself is in the site-wide business data)
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Product",
-    name: product.name,
-    description: product.description,
-    brand: { "@type": "Organization", name: site.name },
-    url: `${site.url}/products/${product.slug}`,
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: site.url },
+      { "@type": "ListItem", position: 2, name: "Products", item: `${site.url}/products` },
+      { "@type": "ListItem", position: 3, name: product.name, item: `${site.url}/products/${product.slug}` },
+    ],
   };
 
   return (
@@ -85,6 +88,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
         <VariantList product={product} source={source} />
+        {product.slug.endsWith("bricks") && <CalculatorCallout />}
       </section>
 
       <section className="section section-tight">
@@ -134,7 +138,7 @@ export default async function ProductPage({ params }: Props) {
         <div className="enquire-grid">
           <div>
             <div className="eyebrow">{product.name}</div>
-            <h2>Get today&apos;s price</h2>
+            <h2>Get a quote</h2>
           </div>
           <div className="lead-card">
             <LeadForm inline category={product.slug} source={source} />

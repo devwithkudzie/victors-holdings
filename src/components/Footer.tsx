@@ -23,6 +23,8 @@ export function Footer() {
         <div>
           <b>Company</b>
           <Link href="/about">About</Link>
+          <Link href="/brick-calculator">Brick calculator</Link>
+          <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/products">All products</Link>
         </div>

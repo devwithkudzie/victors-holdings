@@ -1,12 +1,9 @@
 import Link from "next/link";
+import { Bento } from "@/components/Bento";
 import { CtaBand } from "@/components/CtaBand";
 import { HeroCarousel } from "@/components/HeroCarousel";
-import { ProductCard } from "@/components/ProductCard";
 import { RangeCallout } from "@/components/RangeCallout";
 import { Testimonials } from "@/components/Testimonials";
-import { products } from "@/lib/products";
-
-const featured = products.slice(0, 3);
 
 const benefits = [
   { title: "Quality materials", body: "Source construction materials with confidence and ask about current availability." },
@@ -28,26 +25,7 @@ export default function HomePage() {
 
       <RangeCallout />
 
-      <section className="section">
-        <div className="sectionhead">
-          <div>
-            <div className="eyebrow">What we supply</div>
-            <h2>Materials for the job.</h2>
-          </div>
-          <p>
-            Whether you&apos;re building a home, developing property or managing a construction project, Victors
-            helps you source the materials you need.
-          </p>
-        </div>
-        <div className="products">
-          {featured.map((p) => (
-            <ProductCard key={p.slug} product={p} />
-          ))}
-        </div>
-        <div className="section-link">
-          <Link href="/products">See all products →</Link>
-        </div>
-      </section>
+      <Bento />
 
       <section className="section dark">
         <div className="sectionhead">

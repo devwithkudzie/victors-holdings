@@ -39,7 +39,7 @@ export function buildLeadMessage(lead: Lead) {
     `*Name:* ${lead.name}`,
   ];
   if (lead.notes?.trim()) lines.push(`*Notes:* ${lead.notes.trim()}`);
-  lines.push("", "Please send today's price and delivery cost. Thank you.");
+  lines.push("", "Please confirm the price and delivery cost. Thank you.");
   lines.push(`_Sent from ${site.url.replace(/^https?:\/\//, "")}${lead.ref ? ` · ${lead.ref}` : ""}_`);
   return lines.join("\n");
 }

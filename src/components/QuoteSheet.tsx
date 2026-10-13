@@ -216,7 +216,9 @@ type QuoteButtonProps = LeadFormProps & {
 export function QuoteButton({ label = "Get a Quote on WhatsApp →", className = "primary", img, ...form }: QuoteButtonProps) {
   const { open, setOpen, close } = useMenu();
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -248,7 +250,7 @@ function QuoteSheet({ img, onClose, ...form }: LeadFormProps & { img?: string; o
             </span>
           )}
           <div>
-            <small>Get today&apos;s price</small>
+            <small>Get a quote</small>
             <b>{title}</b>
           </div>
           <button type="button" className="qs-close" onClick={onClose} aria-label="Close">
@@ -262,7 +264,7 @@ function QuoteSheet({ img, onClose, ...form }: LeadFormProps & { img?: string; o
               <IconChat size={28} />
             </span>
             <h3>Almost done — press Send in WhatsApp</h3>
-            <p>Your quote request is ready in WhatsApp. Victors will reply with today&apos;s price and delivery cost.</p>
+            <p>Your quote request is ready in WhatsApp. Victors will confirm the price and delivery cost.</p>
             <button type="button" className="qs-link" onClick={onClose}>
               Back to the website
             </button>

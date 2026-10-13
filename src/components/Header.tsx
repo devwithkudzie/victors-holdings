@@ -1,6 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { nav } from "@/lib/site";
 import { useMenu, type MenuProduct } from "@/lib/useMenu";
 import { IconArrow, IconChat, IconGrid, IconHome, IconMore, IconQuote } from "./icons";
@@ -16,6 +18,11 @@ const WA_MSG = "Hi Victors Holdings 👋";
  */
 export function Header({ products }: { products: MenuProduct[] }) {
   const { open, toggle, close, pathname } = useMenu();
+  // Product thumbnails load only once the "More" sheet has been opened (saves data on every page view)
+  const [primed, setPrimed] = useState(false);
+  useEffect(() => {
+    if (open) setPrimed(true);
+  }, [open]);
   const is = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
   return (
@@ -71,7 +78,7 @@ export function Header({ products }: { products: MenuProduct[] }) {
         <div className="ha-sheet-grid">
           {products.map((p) => (
             <Link key={p.slug} href={`/products/${p.slug}`} onClick={close}>
-              <span className="ha-thumb" style={p.img ? { backgroundImage: `url(${p.img})` } : undefined} />
+              <span className="ha-thumb">{primed && p.img && <Image src={p.img} alt="" fill sizes="120px" />}</span>
               {p.name}
             </Link>
           ))}
@@ -82,6 +89,12 @@ export function Header({ products }: { products: MenuProduct[] }) {
           </Link>
           <Link href="/products/pavers" onClick={close}>
             Paving services <IconArrow size={18} />
+          </Link>
+          <Link href="/brick-calculator" onClick={close}>
+            Brick calculator <IconArrow size={18} />
+          </Link>
+          <Link href="/faq" onClick={close}>
+            Questions (FAQ) <IconArrow size={18} />
           </Link>
           <Link href="/contact" onClick={close}>
             Contact & quotes <IconArrow size={18} />
