@@ -13,7 +13,8 @@ export const affiliates = pgTable(
     area: text("area").notNull(),
     payoutMethod: text("payout_method", { enum: ["ecocash", "bank"] }).notNull(),
     payoutDetails: text("payout_details").notNull(),
-    pinHash: text("pin_hash").notNull(),
+    /** Hashed login password (column kept as pin_hash so no database migration is needed) */
+    passwordHash: text("pin_hash").notNull(),
     status: text("status", { enum: ["active", "paused"] }).notNull().default("active"),
     rulesVersion: text("rules_version").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),

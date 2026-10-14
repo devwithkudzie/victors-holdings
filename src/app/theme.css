@@ -789,3 +789,59 @@ html { scroll-padding-top: 72px; }
 .tm-flyer { display: block; width: 100%; max-width: 420px; height: auto; border: 1px solid var(--line); background: #e9ece9; }
 .tm-flyer.square { aspect-ratio: 1; }
 .tm-flyer.story { aspect-ratio: 9 / 16; max-width: 300px; }
+
+/* Hero: Tora Mari slide */
+.hd-reward { color: var(--brick); font-weight: 800; }
+
+/* Homepage: Tora Mari refer & earn callout */
+.refer { padding-top: 0; }
+.refer-panel { display: grid; gap: 22px; padding: 26px 20px; background: var(--night); color: #fff; }
+.refer-kicker { margin: 0 0 8px; font-size: 12px; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; color: var(--brick); }
+.refer-panel .section-title { color: #fff; font-size: clamp(30px, 8vw, 52px); }
+.refer-steps { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.refer-steps li { display: flex; align-items: center; gap: 12px; font-size: 16px; color: #e6f0ea; }
+.refer-steps span { display: grid; place-items: center; flex: 0 0 32px; height: 32px; background: var(--brick); color: var(--on-brick); font-weight: 800; }
+.refer-actions { display: grid; gap: 10px; align-content: center; }
+.refer-amount { display: grid; font-size: 64px; line-height: 1; color: var(--brick); }
+.refer-amount small { font-size: 14px; font-weight: 600; color: #cfe3d7; margin-top: 4px; }
+.refer-link { color: #fff; text-decoration: underline; font-weight: 650; text-align: center; padding: 6px; }
+@media (min-width: 900px) {
+  .refer-panel { grid-template-columns: 1.6fr 1fr; padding: 40px 44px; align-items: center; }
+  .refer-steps { grid-template-columns: repeat(3, 1fr); }
+  .refer-amount { font-size: 88px; }
+}
+
+/* Tora Mari hero photo — phones: full background with the promotion on top; desktop: photo on the right */
+.tm-hero { position: relative; overflow: hidden; isolation: isolate; }
+.tm-hero-photo { position: absolute; inset: 0; z-index: -1; }
+.tm-hero-photo img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 55% 8%; }
+.tm-hero-photo::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(6, 30, 18, .35) 0%, rgba(6, 30, 18, .15) 30%, rgba(6, 30, 18, .82) 60%, rgba(6, 30, 18, .97) 100%);
+}
+@media (max-width: 899px) {
+  /* leave the top of the photo (her face) clear; text sits in the lower half */
+  /* fills the screen between the top bar (60px) and the tab bar (~80px), buttons always above the tab bar */
+  .tm-hero { min-height: calc(100svh - 140px); display: flex; align-items: flex-end; padding-top: max(80px, calc(100svh - 580px)); padding-bottom: 20px; }
+  @media (max-height: 700px) {
+    .tm-hero h1 { font-size: 40px; }
+    .tm-hero h1 span { font-size: 22px; }
+    .tm-hero-inner > p:not(.tm-kicker) { font-size: 15px; margin: 8px 0 0; }
+    .tm-hero-actions { margin-top: 14px; }
+  }
+  /* Promotion on a white card over the photo (like the homepage hero deal panels) */
+  .tm-hero-inner { padding: 20px 18px; background: rgba(255, 255, 255, .95); color: var(--ink); box-shadow: 0 14px 40px rgba(0, 0, 0, .35); }
+  .tm-hero h1 { color: var(--ink); margin-bottom: 8px; }
+  .tm-hero h1 span { color: #c8281c; }
+  .tm-hero .tm-hero-inner > p { color: #3f4a45; }
+  .tm-hero .tm-ghost { color: var(--ink); border-color: var(--ink); background: #fff; }
+  .tm-hero-actions { margin-top: 16px; }
+  .tm-hero-photo::after { background: linear-gradient(180deg, rgba(6, 30, 18, 0) 40%, rgba(6, 30, 18, .55) 100%); }
+}
+@media (min-width: 900px) {
+  .tm-hero { display: flex; align-items: center; gap: 56px; }
+  .tm-hero-photo { position: static; z-index: auto; order: 2; flex: 0 0 34%; max-width: 486px; }
+  .tm-hero-photo::after { display: none; }
+  .tm-hero-photo img { height: auto; aspect-ratio: 4 / 5; max-height: 560px; object-position: 50% 30%; box-shadow: 0 30px 60px rgba(0, 0, 0, .35); }
+  .tm-hero-inner { flex: 1; }
+}

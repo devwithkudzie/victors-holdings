@@ -11,6 +11,7 @@ export type HeroSlide = {
   blurBackground?: boolean;
 } & (
   | { kind: "delivery" }
+  | { kind: "referral"; reward: string }
   | {
       kind: "deal";
       deal: {

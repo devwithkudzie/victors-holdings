@@ -16,8 +16,8 @@ export function LoginForm() {
         </span>
       </label>
       <label>
-        PIN
-        <input name="pin" type="password" inputMode="numeric" maxLength={6} autoComplete="current-password" required />
+        Password
+        <input name="password" type="password" autoComplete="current-password" required />
       </label>
       {state?.error && <p className="tm-error">{state.error}</p>}
       <button type="submit" className="tm-btn" disabled={pending}>

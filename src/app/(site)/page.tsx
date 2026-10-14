@@ -6,6 +6,7 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import { HomeFaq } from "@/components/HomeFaq";
 import { ProductTile } from "@/components/ProductTile";
 import { RangeCallout } from "@/components/RangeCallout";
+import { ReferCallout } from "@/components/ReferCallout";
 import { ShopByType } from "@/components/ShopByType";
 import { Testimonials } from "@/components/Testimonials";
 import { heroSlides } from "@/lib/hero-slides";
@@ -37,6 +38,8 @@ export default function HomePage() {
           </div>
         </section>
       )}
+
+      <ReferCallout />
 
       <ShopByType items={items} types={brickTypes} />
 

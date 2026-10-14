@@ -5,7 +5,7 @@ import { AdminNav } from "@/components/tora/AdminNav";
 import { getDb } from "@/lib/db";
 import { affiliates, clicks, leads, referrals } from "@/lib/db/schema";
 import { formatZimMobile } from "@/lib/phone";
-import { requireStaff, resetPin } from "../actions";
+import { requireStaff, resetPassword } from "../actions";
 
 export const dynamic = "force-dynamic";
 
@@ -49,15 +49,15 @@ export default async function AffiliatesPage() {
         </div>
         {me.role === "admin" && (
           <>
-            <h2>Reset an affiliate&apos;s PIN</h2>
-            <ActionForm action={resetPin} submit="Reset PIN" className="tm-form adm-form">
+            <h2>Reset an affiliate&apos;s password</h2>
+            <ActionForm action={resetPassword} submit="Reset password" className="tm-form adm-form">
               <label>
                 Affiliate code
                 <input name="code" required />
               </label>
               <label>
-                New 6-digit PIN
-                <input name="pin" inputMode="numeric" maxLength={6} required />
+                New password (8+ characters)
+                <input name="password" type="text" minLength={8} autoComplete="off" required />
               </label>
             </ActionForm>
           </>

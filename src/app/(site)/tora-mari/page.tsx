@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
+import { getImageProps } from "next/image";
 import Link from "next/link";
 import { SignupForm } from "@/components/tora/SignupForm";
 import { PROGRAMME, RULES, RULES_VERSION } from "@/lib/affiliate-rules";
-import { programmeTotals } from "@/lib/server/affiliates";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -26,13 +26,30 @@ const TRUST = [
   { title: "Rules in writing", text: "One short set of rules with a version date, and 30 days' notice of any change." },
 ];
 
-export default async function ToraMariPage() {
-  const totals = await programmeTotals().catch(() => ({ totalPaid: 0, affiliatesPaid: 0 }));
+/** Happy affiliate photo: hero background on phones, right-aligned photo on desktop */
+function HeroPhoto() {
+  const { props } = getImageProps({
+    src: "/images/tora-mari/happy-affiliate.jpg",
+    alt: "A smiling woman holding her earnings",
+    width: 1000,
+    height: 1250,
+    sizes: "(min-width: 900px) 40vw, 100vw",
+    quality: 80,
+    priority: true,
+  });
+  return (
+    <div className="tm-hero-photo">
+      <img {...props} alt={props.alt} />
+    </div>
+  );
+}
+
+export default function ToraMariPage() {
   return (
     <>
       <section className="tm-hero">
+        <HeroPhoto />
         <div className="tm-hero-inner">
-          <p className="tm-kicker">Victors Holdings referral programme</p>
           <h1>
             Tora Mari! <span>Earn US${PROGRAMME.reward} for every customer you refer.</span>
           </h1>
@@ -45,11 +62,6 @@ export default async function ToraMariPage() {
               Log in
             </Link>
           </div>
-          {totals.totalPaid > 0 && (
-            <p className="tm-proof">
-              US${totals.totalPaid.toLocaleString("en-US")} paid to {totals.affiliatesPaid} affiliate{totals.affiliatesPaid === 1 ? "" : "s"} so far
-            </p>
-          )}
         </div>
       </section>
 
@@ -108,7 +120,7 @@ export default async function ToraMariPage() {
         <p className="tm-privacy">
           We store your name, WhatsApp number, area and payout details only to run Tora Mari: to count your referrals, show your dashboard and pay
           you. We don&apos;t sell or share them. Customers you refer are shown on your dashboard by area and order size only. To see, correct or
-          delete your details, message us on WhatsApp (+{site.whatsapp}). Your PIN is stored encrypted; we can&apos;t see it.
+          delete your details, message us on WhatsApp (+{site.whatsapp}). Your password is stored encrypted; we can&apos;t see it.
         </p>
       </section>
     </>

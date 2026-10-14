@@ -1,6 +1,7 @@
 import "server-only";
 import type { HeroSlide } from "./hero";
 import { unitText } from "./pricing";
+import { PROGRAMME } from "./affiliate-rules";
 import { products } from "./products";
 import { resolveImage } from "./resolve-image";
 
@@ -24,7 +25,7 @@ const HERO_PHOTOS: Record<string, { desktop: HeroSlide["desktop"]; mobile: HeroS
 const short = (n: number) => `US$${Number.isInteger(n) ? n.toLocaleString("en-US") : n.toFixed(2)}`;
 
 /**
- * Slide 1: nationwide delivery (truck photo).
+ * Slide 1: nationwide delivery (truck photo). Slide 2: Tora Mari refer & earn.
  * Slides 2–4: bricks that have a full-size hero photo — discounted ones first (biggest saving first),
  * then the rest at their regular price. Add a photo to HERO_PHOTOS to include another brick.
  */
@@ -44,8 +45,18 @@ export function heroSlides(): HeroSlide[] {
     .sort((a, b) => b.saving - a.saving)
     .slice(0, 3);
 
+  const referral: HeroSlide = {
+    id: "tora-mari",
+    kind: "referral",
+    reward: `${PROGRAMME.currency}${PROGRAMME.reward}`,
+    alt: "Rows of bricks at the Victors Holdings yard",
+    desktop: { src: "/images/blue-heart-common/blueheart6.jpg", position: "50% 55%" },
+    mobile: { src: "/images/blue-heart-common/blueheart6.jpg", position: "50% 40%" },
+  };
+
   return [
     delivery,
+    referral,
     ...deals.map(({ p, v, saving }): HeroSlide => {
       const thumb = resolveImage(`catalog/${v.slug}`);
       const photo = HERO_PHOTOS[v.slug];

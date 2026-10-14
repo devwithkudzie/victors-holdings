@@ -17,7 +17,7 @@ export default async function StaffPage() {
       <section className="adm-body">
         <h1>Staff</h1>
         <p className="muted">
-          <b>Sales</b> can record orders and mark them delivered & paid. <b>Admins</b> can also approve and record payouts, reset PINs and add
+          <b>Sales</b> can record orders and mark them delivered & paid. <b>Admins</b> can also approve and record payouts, reset affiliate passwords and add
           staff.
         </p>
         <ul className="adm-list">

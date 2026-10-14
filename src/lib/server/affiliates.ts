@@ -1,5 +1,5 @@
 import "server-only";
-import { and, count, desc, eq, sql } from "drizzle-orm";
+import { and, count, desc, eq } from "drizzle-orm";
 import { getDb } from "../db";
 import { affiliates, clicks, leads, payouts, referrals } from "../db/schema";
 
@@ -52,13 +52,4 @@ export async function affiliateDashboard(id: number) {
   const earned = pays.reduce((s, p) => s + Number(p.amount), 0);
   const pending = refs.filter((r) => r.status === "delivered_paid" || r.status === "approved").length;
   return { affiliate: a, clicks: c.n, leads: l.n, referrals: refs, payouts: pays, earned, pending };
-}
-
-/** Totals shown on the public page ("Is anyone actually paid?") */
-export async function programmeTotals() {
-  const db = await getDb();
-  const [row] = await db
-    .select({ total: sql<string>`coalesce(sum(${payouts.amount}), 0)`, people: sql<number>`count(distinct ${payouts.affiliateId})` })
-    .from(payouts);
-  return { totalPaid: Number(row?.total ?? 0), affiliatesPaid: Number(row?.people ?? 0) };
 }

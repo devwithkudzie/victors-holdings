@@ -126,7 +126,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             className={`hc-slide kb-${i % 3}${s.blurBackground ? " is-blurred" : ""}${i === index ? " is-active" : ""}${i === leaving ? " is-leaving" : ""}`}
             role="group"
             aria-roledescription="slide"
-            aria-label={`${i + 1} of ${count}: ${s.kind === "deal" ? s.deal.name : "Nationwide delivery"}`}
+            aria-label={`${i + 1} of ${count}: ${s.kind === "deal" ? s.deal.name : s.kind === "referral" ? "Tora Mari refer and earn" : "Nationwide delivery"}`}
             aria-hidden={i !== index}
           >
             {(i <= loadedUpTo || i === index) && <SlidePicture slide={s} priority={i === 0} />}
@@ -177,6 +177,33 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
                     <a href="#deals-title" className="hd-btn hd-ghost">
                       See mega deals
                     </a>
+                  </div>
+                </div>
+              ) : s.kind === "referral" ? (
+                <div className="hd-delivery hd-referral">
+                  <span className="hd-icon" aria-hidden>
+                    <svg viewBox="0 0 24 24" width="30" height="30">
+                      <path
+                        d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM19 8v6M22 11h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.7"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                  <p className="hd-title">Tora Mari!</p>
+                  <p className="hd-sub">
+                    Refer a customer and earn <b className="hd-reward">{s.reward}</b> when their order is delivered and paid.
+                  </p>
+                  <div className="hd-actions">
+                    <Link href="/tora-mari" className="hd-btn">
+                      Refer &amp; earn →
+                    </Link>
+                    <Link href="/tora-mari#rules" className="hd-btn hd-ghost">
+                      How it works
+                    </Link>
                   </div>
                 </div>
               ) : (

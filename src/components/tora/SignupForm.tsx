@@ -49,10 +49,10 @@ export function SignupForm() {
         {err("payoutDetails")}
       </fieldset>
       <label>
-        Choose a 6-digit PIN
-        <input name="pin" type="password" inputMode="numeric" pattern="\d{6}" maxLength={6} autoComplete="new-password" required />
-        <small>You&apos;ll log in with your WhatsApp number and this PIN.</small>
-        {err("pin")}
+        Choose a password
+        <input name="password" type="password" minLength={8} autoComplete="new-password" required />
+        <small>At least 8 characters. You&apos;ll log in with your WhatsApp number and this password.</small>
+        {err("password")}
       </label>
       <input className="bc-trap" name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" />
       <label className="tm-check">

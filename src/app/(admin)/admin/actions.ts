@@ -143,15 +143,15 @@ export async function addStaff(_: AdminState, f: FormData): Promise<AdminState> 
   return { ok: `${name} can now log in as ${role}.` };
 }
 
-/** Admin: reset an affiliate's PIN (they ask on WhatsApp) */
-export async function resetPin(_: AdminState, f: FormData): Promise<AdminState> {
+/** Admin: set a new password for an affiliate (they ask on WhatsApp) */
+export async function resetPassword(_: AdminState, f: FormData): Promise<AdminState> {
   const me = await requireStaff("admin");
   const code = normaliseCode(str(f, "code"));
-  const pin = str(f, "pin", 6);
-  if (!/^\d{6}$/.test(pin)) return { error: "New PIN must be 6 digits." };
+  const password = String(f.get("password") ?? "").slice(0, 100);
+  if (password.length < 8) return { error: "New password must be at least 8 characters." };
   const db = await getDb();
-  const res = await db.update(affiliates).set({ pinHash: await hashSecret(pin) }).where(eq(affiliates.code, code)).returning({ id: affiliates.id });
+  const res = await db.update(affiliates).set({ passwordHash: await hashSecret(password) }).where(eq(affiliates.code, code)).returning({ id: affiliates.id });
   if (!res.length) return { error: `No affiliate with code ${code}.` };
-  await audit(me.id, "affiliate.pin_reset", { code });
-  return { ok: `PIN reset for ${code}. Send it to them on WhatsApp.` };
+  await audit(me.id, "affiliate.password_reset", { code });
+  return { ok: `Password reset for ${code}. Send it to them on WhatsApp and ask them to keep it private.` };
 }

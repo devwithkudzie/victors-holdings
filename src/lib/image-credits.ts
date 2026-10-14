@@ -20,4 +20,5 @@ export const imageCredits: { file: string; author: string; license: string }[] =
   { file: "product-quarry-products-2", author: "U.S. Air Force photo by Master Sgt. Luke Olson", license: "Public domain" },
   { file: "product-quarry-products-3", author: "usfs_Eastern_Region", license: "Public domain" },
   { file: "product-quarry-products-4", author: "James St. John", license: "CC BY 2.0" },
+  { file: "tora-mari/happy-affiliate", author: "Idongesit David (Pexels)", license: "Pexels License" },
 ];

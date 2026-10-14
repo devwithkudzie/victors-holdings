@@ -6,7 +6,7 @@ import { sign, verify } from "./quote";
 
 const scrypt = promisify(_scrypt) as (pw: string, salt: Buffer, len: number) => Promise<Buffer>;
 
-/** Hash a PIN or password (scrypt, random salt) */
+/** Hash a password (scrypt, random salt) */
 export async function hashSecret(secret: string) {
   const salt = randomBytes(16);
   const key = await scrypt(secret, salt, 32);
