@@ -24,6 +24,7 @@ export function Footer() {
           <b>Company</b>
           <Link href="/about">About</Link>
           <Link href="/brick-calculator">Brick calculator</Link>
+          <Link href="/tora-mari">Tora Mari — refer &amp; earn</Link>
           <Link href="/faq">FAQ</Link>
           <Link href="/contact">Contact</Link>
           <Link href="/products">All products</Link>

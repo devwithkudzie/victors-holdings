@@ -1,6 +1,7 @@
 "use client";
 
 import { trackWhatsAppClick } from "@/lib/analytics";
+import { withRef } from "@/lib/referral";
 import { openWhatsApp, whatsappLink } from "@/lib/site";
 
 type Props = {
@@ -22,7 +23,7 @@ export function WhatsAppButton({ message, source, children = "Chat on WhatsApp",
       onClick={(e) => {
         e.preventDefault();
         trackWhatsAppClick(source);
-        openWhatsApp(url);
+        openWhatsApp(whatsappLink(withRef(message)));
       }}
     >
       {children}

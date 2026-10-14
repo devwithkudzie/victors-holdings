@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { BenefitBar } from "@/components/BenefitBar";
 import { Bento } from "@/components/Bento";
-import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { CtaBand } from "@/components/CtaBand";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { HomeFaq } from "@/components/HomeFaq";
@@ -42,10 +41,6 @@ export default function HomePage() {
       <ShopByType items={items} types={brickTypes} />
 
       <RangeCallout flat />
-
-      <section className="section section-tight calc-promo">
-        <CalculatorCallout />
-      </section>
 
       <Bento />
 

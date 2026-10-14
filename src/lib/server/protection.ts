@@ -50,6 +50,8 @@ const RULES = {
   planGlobal: { max: Number(process.env.PLAN_READS_PER_DAY) || 300, window: "1 d" },
   sizeHour: { max: 20, window: "1 h" },
   quoteHour: { max: 10, window: "1 h" },
+  loginHour: { max: 10, window: "1 h" },
+  signupHour: { max: 5, window: "1 h" },
 } satisfies Record<string, { max: number; window: Window }>;
 type Rule = keyof typeof RULES;
 
@@ -94,7 +96,12 @@ export type Verdict = { ok: true } | { ok: false; status: number; error: string;
 const block = (status: number, error: string, message: string): Verdict => ({ ok: false, status, error, message });
 
 /** Per-visitor limits, checked before any work is done */
-export async function checkVisitor(kind: "plan" | "size" | "quote", ip: string): Promise<Verdict> {
+export async function checkVisitor(kind: "plan" | "size" | "quote" | "login" | "signup", ip: string): Promise<Verdict> {
+  if (kind === "login" || kind === "signup") {
+    return (await allow(kind === "login" ? "loginHour" : "signupHour", ip))
+      ? { ok: true }
+      : block(429, "too-many", "Too many attempts — please wait a while and try again.");
+  }
   if (kind === "plan") {
     if (!(await allow("planHour", ip)) || !(await allow("planDay", ip))) {
       return block(429, "too-many-plans", "You've uploaded several plans already. Please try again later, or enter your house size.");

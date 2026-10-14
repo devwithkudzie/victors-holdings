@@ -4,6 +4,6 @@ import { site } from "@/lib/site";
 
 // The campaign page (/red-common-bricks) is intentionally excluded — it's noindexed.
 export default function sitemap(): MetadataRoute.Sitemap {
-  const paths = ["", "/products", "/brick-calculator", "/about", "/faq", "/contact", ...products.map((p) => `/products/${p.slug}`)];
+  const paths = ["", "/products", "/brick-calculator", "/tora-mari", "/about", "/faq", "/contact", ...products.map((p) => `/products/${p.slug}`)];
   return paths.map((path) => ({ url: `${site.url}${path}`, lastModified: new Date() }));
 }

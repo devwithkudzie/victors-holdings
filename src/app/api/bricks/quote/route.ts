@@ -1,4 +1,6 @@
 import { normaliseZimMobile } from "@/lib/phone";
+import { cookies } from "next/headers";
+import { recordLead, REF_COOKIE } from "@/lib/server/affiliates";
 import { deliverLead } from "@/lib/server/leads";
 import { checkVisitor, clientIp, ESTIMATE_TTL_MS } from "@/lib/server/protection";
 import { quotableBricks } from "@/lib/pricing";
@@ -37,6 +39,13 @@ export async function POST(req: Request) {
   const origin = new URL(req.url).origin;
   const pdfUrl = `${origin}/api/bricks/quote-pdf?t=${sign(quote)}`;
   const { autoSentToCustomer } = await deliverLead(quote, pdfUrl, { sendToCustomer: body.sendToWhatsApp === true });
+  // Tora Mari: count it as a lead for the referring affiliate
+  const ref = (await cookies()).get(REF_COOKIE)?.value;
+  if (ref) {
+    await recordLead(ref, "brick_calculator", `${quote.quantity.toLocaleString("en-US")} × ${product}`).catch((e) =>
+      console.error("[tora-mari] lead not recorded", e),
+    );
+  }
 
   return Response.json({ quote, pdfUrl, autoSentToCustomer });
 }

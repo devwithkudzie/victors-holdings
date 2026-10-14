@@ -93,6 +93,9 @@ export function Header({ products }: { products: MenuProduct[] }) {
           <Link href="/brick-calculator" onClick={close}>
             Brick calculator <IconArrow size={18} />
           </Link>
+          <Link href="/tora-mari" onClick={close}>
+            Tora Mari — earn US$20 <IconArrow size={18} />
+          </Link>
           <Link href="/faq" onClick={close}>
             Questions (FAQ) <IconArrow size={18} />
           </Link>

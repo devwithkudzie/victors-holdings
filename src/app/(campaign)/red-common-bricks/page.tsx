@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Photo } from "@/components/Photo";
-import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
@@ -100,7 +99,6 @@ export default function RedCommonBricksCampaign() {
           <p>Tap Choose options to get a quote for a specific brick on WhatsApp.</p>
         </div>
         <VariantList product={bricks} source={SOURCE} leadRef={REF} />
-        <CalculatorCallout />
       </section>
 
       <section className="section dark">

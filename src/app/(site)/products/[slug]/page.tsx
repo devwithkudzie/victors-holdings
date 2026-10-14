@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
 import { Gallery } from "@/components/Gallery";
 import { Photo } from "@/components/Photo";
-import { CalculatorCallout } from "@/components/CalculatorCallout";
 import { Testimonials } from "@/components/Testimonials";
 import { VariantList } from "@/components/VariantList";
 import { LeadForm, QuoteButton } from "@/components/QuoteSheet";
@@ -87,7 +86,6 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </div>
         <VariantList product={product} source={source} />
-        {product.slug.endsWith("bricks") && <CalculatorCallout />}
       </section>
 
       <section className="section section-tight">

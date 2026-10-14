@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { trackLead } from "@/lib/analytics";
 import { buildLeadMessage, customerTypes, NOT_SURE, timelines, type Lead } from "@/lib/lead";
 import { estimatePrice } from "@/lib/price-estimate";
+import { reportLead, withRef } from "@/lib/referral";
 import { products } from "@/lib/products";
 import { openWhatsApp, whatsappLink } from "@/lib/site";
 import { useMenu } from "@/lib/useMenu";
@@ -100,8 +101,9 @@ export function LeadForm({
       return;
     }
     trackLead(source, { product: productNames.join(", "), category: cats.map((c) => c.slug).join(","), quantity: qty, delivery, timeline, customer_type: customerType });
+    reportLead(source, `${productNames.join(", ")} · ${qty}`);
     onSent?.();
-    openWhatsApp(whatsappLink(message));
+    openWhatsApp(whatsappLink(withRef(message)));
   }
 
   let step = 0;
