@@ -90,7 +90,7 @@ export async function recordOrder(_: AdminState, f: FormData): Promise<AdminStat
     .values({ affiliateId: a.id, customerPhone, customerArea, description, orderValue: orderValue.toFixed(2), note, createdBy: me.id })
     .returning();
   await audit(me.id, "referral.create", { referral: r.id, affiliate: a.code, orderValue });
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
   return { ok: `Order recorded for ${a.code} (${a.name}).${note ? " ⚠ " + note : ""}` };
 }
 
@@ -107,7 +107,7 @@ export async function setStatus(f: FormData) {
     .set({ status, updatedAt: new Date(), ...(status === "delivered_paid" ? { customerPaidAt: new Date() } : {}), ...(status === "rejected" ? { note: str(f, "note", 200) || "Not eligible under the rules" } : {}) })
     .where(eq(referrals.id, id));
   await audit(me.id, `referral.${status}`, { referral: id });
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 /** Admin: record the US$20 payment with its EcoCash/bank reference */
@@ -123,7 +123,7 @@ export async function recordPayout(f: FormData) {
   await db.insert(payouts).values({ referralId: r.id, affiliateId: r.affiliateId, amount: String(PROGRAMME.reward), method: a.payoutMethod, reference, paidBy: me.id });
   await db.update(referrals).set({ status: "paid", updatedAt: new Date() }).where(eq(referrals.id, id));
   await audit(me.id, "payout.create", { referral: id, reference });
-  revalidatePath("/admin");
+  revalidatePath("/admin", "layout");
 }
 
 export async function addStaff(_: AdminState, f: FormData): Promise<AdminState> {
@@ -139,7 +139,7 @@ export async function addStaff(_: AdminState, f: FormData): Promise<AdminState> 
   if (exists) return { error: "That email already has an account." };
   await db.insert(staff).values({ email, name, role, passwordHash: await hashSecret(password) });
   await audit(me.id, "staff.create", { email, role });
-  revalidatePath("/admin/staff");
+  revalidatePath("/admin", "layout");
   return { ok: `${name} can now log in as ${role}.` };
 }
 
@@ -154,4 +154,25 @@ export async function resetPassword(_: AdminState, f: FormData): Promise<AdminSt
   if (!res.length) return { error: `No affiliate with code ${code}.` };
   await audit(me.id, "affiliate.password_reset", { code });
   return { ok: `Password reset for ${code}. Send it to them on WhatsApp and ask them to keep it private.` };
+}
+
+/** Staff member changes their own password */
+export async function changePassword(_: AdminState, f: FormData): Promise<AdminState> {
+  const me = await requireStaff();
+  const current = String(f.get("current") ?? "");
+  const next = String(f.get("next") ?? "");
+  if (next.length < 10) return { error: "Use a new password of at least 10 characters." };
+  if (next !== String(f.get("confirm") ?? "")) return { error: "The new passwords don't match." };
+  if (!(await checkSecret(current, me.passwordHash))) return { error: "Your current password is wrong." };
+  const db = await getDb();
+  await db.update(staff).set({ passwordHash: await hashSecret(next) }).where(eq(staff.id, me.id));
+  await audit(me.id, "staff.password_change", {});
+  return { ok: "Password changed." };
+}
+
+/** Number of orders waiting for a staff action (shown as a badge) */
+export async function attentionCount(role: string) {
+  const db = await getDb();
+  const rows = await db.select({ status: referrals.status }).from(referrals);
+  return rows.filter((r) => r.status === "recorded" || (role === "admin" && (r.status === "delivered_paid" || r.status === "approved"))).length;
 }

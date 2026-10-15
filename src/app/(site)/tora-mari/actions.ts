@@ -13,7 +13,7 @@ import { checkSecret, endSession, hashSecret, startSession } from "@/lib/server/
 import { checkVisitor } from "@/lib/server/protection";
 
 /** values: what the person typed (never the password), so the form can be refilled after an error */
-export type FormState = { error?: string; field?: string; values?: Record<string, string> } | undefined;
+export type FormState = { error?: string; ok?: string; field?: string; values?: Record<string, string> } | undefined;
 
 const ip = async () => (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 const str = (f: FormData, k: string, max = 120) => String(f.get(k) ?? "").trim().slice(0, max);
@@ -92,4 +92,22 @@ async function loginInner(f: FormData): Promise<FormState> {
 export async function logout() {
   await endSession("affiliate");
   redirect("/tora-mari");
+}
+
+/** Affiliate changes their own password from the dashboard */
+export async function changeAffiliatePassword(_prev: FormState, f: FormData): Promise<FormState> {
+  return safely(async () => {
+    const { readSession } = await import("@/lib/server/auth");
+    const id = await readSession("affiliate");
+    if (!id) return { error: "Please log in again." };
+    const current = String(f.get("current") ?? "");
+    const next = String(f.get("next") ?? "");
+    if (next.length < 8) return { field: "next", error: "Use a new password of at least 8 characters." };
+    if (next !== String(f.get("confirm") ?? "")) return { field: "confirm", error: "The new passwords don't match." };
+    const db = await getDb();
+    const [a] = await db.select().from(affiliates).where(eq(affiliates.id, id));
+    if (!a || !(await checkSecret(current, a.passwordHash))) return { field: "current", error: "Your current password is wrong." };
+    await db.update(affiliates).set({ passwordHash: await hashSecret(next) }).where(eq(affiliates.id, id));
+    return { ok: "Password changed." };
+  });
 }

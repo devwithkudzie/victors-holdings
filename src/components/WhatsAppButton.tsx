@@ -1,7 +1,7 @@
 "use client";
 
 import { trackWhatsAppClick } from "@/lib/analytics";
-import { withRef } from "@/lib/referral";
+import { reportLead, withRef } from "@/lib/referral";
 import { openWhatsApp, whatsappLink } from "@/lib/site";
 
 type Props = {
@@ -23,6 +23,8 @@ export function WhatsAppButton({ message, source, children = "Chat on WhatsApp",
       onClick={(e) => {
         e.preventDefault();
         trackWhatsAppClick(source);
+        // Referred visitors who open a WhatsApp chat with Victors count as reaching Victors
+        reportLead(source, "Opened a WhatsApp chat with Victors");
         openWhatsApp(whatsappLink(withRef(message)));
       }}
     >
