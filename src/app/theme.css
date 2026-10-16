@@ -1130,3 +1130,8 @@ html { scroll-padding-top: 72px; }
 .af-steps li { padding-top: 8px; border-top: 4px solid #e3e8e5; font-size: 12px; line-height: 1.25; color: #8a918d; }
 .af-steps li.done { border-top-color: #15803f; color: #14181a; font-weight: 650; }
 .af-rejected { margin: 0; font-size: 13px; color: #5f6b66; }
+
+/* Staff list: removed members, row actions */
+.ad-people li.off { opacity: 0.55; }
+.ad-people li form { flex: none; }
+.ad-people .ad-pill { flex: none; }

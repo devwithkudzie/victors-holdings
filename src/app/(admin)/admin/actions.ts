@@ -1,6 +1,6 @@
 "use server";
 
-import { and, count, eq, ne, or } from "drizzle-orm";
+import { and, asc, count, eq, ne, or } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
@@ -126,12 +126,26 @@ export async function recordPayout(f: FormData) {
   revalidatePath("/admin", "layout");
 }
 
+/** The owner is the first staff account (created from ADMIN_EMAIL). Only the owner can add or manage admins. */
+export async function ownerId() {
+  const db = await getDb();
+  const [first] = await db.select({ id: staff.id }).from(staff).orderBy(asc(staff.id)).limit(1);
+  return first?.id ?? 0;
+}
+
+/** Owner manages everyone; admins manage sales people only; nobody manages themselves here */
+function canManage(me: { id: number; role: string }, owner: number, target: { id: number; role: string }) {
+  if (target.id === me.id || target.id === owner) return false;
+  return me.id === owner || target.role === "sales";
+}
+
 export async function addStaff(_: AdminState, f: FormData): Promise<AdminState> {
   const me = await requireStaff("admin");
   const email = str(f, "email").toLowerCase();
   const name = str(f, "name", 80);
   const password = str(f, "password", 100);
   const role = str(f, "role") === "admin" ? "admin" : "sales";
+  if (role === "admin" && me.id !== (await ownerId())) return { error: "Only the owner can add admins." };
   if (!/^\S+@\S+\.\S+$/.test(email) || name.length < 2) return { error: "Enter a name and a valid email." };
   if (password.length < 10) return { error: "Use a password of at least 10 characters." };
   const db = await getDb();
@@ -140,7 +154,32 @@ export async function addStaff(_: AdminState, f: FormData): Promise<AdminState> 
   await db.insert(staff).values({ email, name, role, passwordHash: await hashSecret(password) });
   await audit(me.id, "staff.create", { email, role });
   revalidatePath("/admin", "layout");
-  return { ok: `${name} can now log in as ${role}.` };
+  return { ok: `${name} can now log in at /admin/login with ${email} and the temporary password. Ask them to change it under My account.` };
+}
+
+/** Remove or restore a staff member's access (takes effect immediately, even if they're logged in) */
+export async function setStaffActive(f: FormData) {
+  const me = await requireStaff("admin");
+  const db = await getDb();
+  const [target] = await db.select().from(staff).where(eq(staff.id, Number(f.get("id"))));
+  if (!target || !canManage(me, await ownerId(), target)) return;
+  const active = f.get("active") === "1" ? 1 : 0;
+  await db.update(staff).set({ active }).where(eq(staff.id, target.id));
+  await audit(me.id, active ? "staff.restore" : "staff.remove", { email: target.email });
+  revalidatePath("/admin", "layout");
+}
+
+/** Give a staff member a new temporary password (they forgot theirs) */
+export async function resetStaffPassword(_: AdminState, f: FormData): Promise<AdminState> {
+  const me = await requireStaff("admin");
+  const password = str(f, "password", 100);
+  if (password.length < 10) return { error: "Use a password of at least 10 characters." };
+  const db = await getDb();
+  const [target] = await db.select().from(staff).where(eq(staff.id, Number(f.get("id"))));
+  if (!target || !canManage(me, await ownerId(), target)) return { error: "Choose a team member you can manage." };
+  await db.update(staff).set({ passwordHash: await hashSecret(password) }).where(eq(staff.id, target.id));
+  await audit(me.id, "staff.password_reset", { email: target.email });
+  return { ok: `New password set for ${target.name}. Send it to them privately and ask them to change it under My account.` };
 }
 
 /** Admin: set a new password for an affiliate (they ask on WhatsApp) */
