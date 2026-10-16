@@ -157,7 +157,7 @@ export default async function AffiliatesPage({ searchParams }: { searchParams: P
                       <Link href={`/admin/new?code=${r.a.code}`} className="ad-btn">
                         + Order
                       </Link>
-                      <a href={`https://wa.me/${r.a.phone}`} target="_blank" rel="noopener noreferrer" className="ad-btn wa" title={`Payout: ${r.a.payoutMethod === "ecocash" ? "EcoCash" : "Bank"} — ${r.a.payoutDetails}`}>
+                      <a href={`https://wa.me/${r.a.phone}`} target="_blank" rel="noopener noreferrer" className="ad-btn wa" title={`EcoCash: ${r.a.payoutDetails}`}>
                         WhatsApp
                       </a>
                     </td>

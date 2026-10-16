@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { register, type FormState } from "@/app/(site)/tora-mari/actions";
 
 export function SignupForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(register, undefined);
-  const [method, setMethod] = useState<"ecocash" | "bank">("ecocash");
   const v = (k: string) => state?.values?.[k];
   const err = (f: string) => (state?.field === f ? <p className="tm-error">{state.error}</p> : null);
 
@@ -31,22 +30,22 @@ export function SignupForm() {
         {err("area")}
       </label>
       <fieldset>
-        <legend>How should we pay you?</legend>
-        <div className="tm-seg">
-          {(["ecocash", "bank"] as const).map((m) => (
-            <label key={m} className={method === m ? "on" : undefined}>
-              <input type="radio" name="payoutMethod" value={m} checked={method === m} onChange={() => setMethod(m)} />
-              {m === "ecocash" ? "EcoCash" : "Bank transfer"}
-            </label>
-          ))}
-        </div>
-        <input
-          name="payoutDetails"
-          placeholder={method === "ecocash" ? "EcoCash number and registered name" : "Bank, account name and account number"}
-          defaultValue={v("payoutDetails")}
-          required
-        />
-        {err("payoutDetails")}
+        <legend>Where should we send your money?</legend>
+        <small className="tm-pay-note">We pay by EcoCash.</small>
+        <label>
+          EcoCash number
+          <span className="tm-phone">
+            <em>+263</em>
+            <input name="ecocashNumber" inputMode="tel" placeholder="77 123 4567" defaultValue={v("ecocashNumber")} required />
+          </span>
+          <small>Can be the same as your WhatsApp number.</small>
+          {err("ecocashNumber")}
+        </label>
+        <label>
+          Name it&apos;s registered in
+          <input name="ecocashName" autoComplete="name" placeholder="As it shows when someone sends you money" defaultValue={v("ecocashName")} required />
+          {err("ecocashName")}
+        </label>
       </fieldset>
       <label>
         Choose a password

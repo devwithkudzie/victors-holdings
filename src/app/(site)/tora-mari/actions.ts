@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { RULES_VERSION } from "@/lib/affiliate-rules";
 import { getDb } from "@/lib/db";
 import { affiliates } from "@/lib/db/schema";
-import { normaliseZimMobile } from "@/lib/phone";
+import { formatZimMobile, normaliseZimMobile } from "@/lib/phone";
 import { generateCode } from "@/lib/server/affiliates";
 import { checkSecret, endSession, hashSecret, startSession } from "@/lib/server/auth";
 import { checkVisitor } from "@/lib/server/protection";
@@ -34,7 +34,7 @@ async function safely(run: () => Promise<FormState>): Promise<FormState> {
 export async function register(_prev: FormState, f: FormData): Promise<FormState> {
   const r = await safely(() => registerInner(f));
   if (!r) return r;
-  return { ...r, values: { name: str(f, "name"), phone: str(f, "phone"), area: str(f, "area"), payoutMethod: str(f, "payoutMethod"), payoutDetails: str(f, "payoutDetails", 200) } };
+  return { ...r, values: { name: str(f, "name"), phone: str(f, "phone"), area: str(f, "area"), ecocashNumber: str(f, "ecocashNumber"), ecocashName: str(f, "ecocashName") } };
 }
 
 async function registerInner(f: FormData): Promise<FormState> {
@@ -45,16 +45,18 @@ async function registerInner(f: FormData): Promise<FormState> {
   const name = str(f, "name", 80);
   const phone = normaliseZimMobile(str(f, "phone"));
   const area = str(f, "area", 80);
-  const payoutMethod = str(f, "payoutMethod") === "bank" ? "bank" : "ecocash";
-  const payoutDetails = str(f, "payoutDetails", 200);
+  // Payouts are by EcoCash only (Econet numbers start 077 / 078)
+  const ecocash = normaliseZimMobile(str(f, "ecocashNumber"));
+  const ecocashName = str(f, "ecocashName", 80);
   const password = String(f.get("password") ?? "").slice(0, 100);
 
   if (name.length < 2) return { field: "name", error: "Enter your full name." };
   if (!phone) return { field: "phone", error: "Enter a valid Zimbabwean WhatsApp number, e.g. 077 123 4567." };
   if (area.length < 2) return { field: "area", error: "Enter your town or area." };
-  if (payoutDetails.length < 4) {
-    return { field: "payoutDetails", error: payoutMethod === "ecocash" ? "Enter the EcoCash number and name it's registered in." : "Enter your bank, account name and account number." };
-  }
+  if (!ecocash || !/^2637[78]/.test(ecocash)) return { field: "ecocashNumber", error: "Enter a valid EcoCash number — it starts with 077 or 078." };
+  if (ecocashName.length < 2) return { field: "ecocashName", error: "Enter the name the EcoCash number is registered in." };
+  const payoutMethod = "ecocash";
+  const payoutDetails = `${formatZimMobile(ecocash)} (${ecocashName})`;
   if (password.length < 8) return { field: "password", error: "Choose a password of at least 8 characters." };
   if (f.get("agree") !== "on") return { field: "agree", error: "Please agree to the rules and privacy notice." };
 

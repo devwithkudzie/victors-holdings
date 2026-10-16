@@ -71,7 +71,7 @@ export default async function Orders() {
                   )}
                   {payout && (
                     <small className="af-paid">
-                      Paid {shortDate(payout.paidAt)} by {payout.method === "ecocash" ? "EcoCash" : "bank"} · Ref {payout.reference}
+                      Paid {shortDate(payout.paidAt)} by EcoCash · Ref {payout.reference}
                     </small>
                   )}
                 </li>
@@ -97,7 +97,7 @@ export default async function Orders() {
       <section className="ad-card">
         <h2>Paid to</h2>
         <p className="ad-muted">
-          {a.payoutMethod === "ecocash" ? "EcoCash" : "Bank transfer"} — {a.payoutDetails}
+          EcoCash — {a.payoutDetails}
         </p>
         <small className="ad-muted">To change your payout details, message us on WhatsApp from Account.</small>
       </section>

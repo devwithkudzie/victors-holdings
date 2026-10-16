@@ -16,12 +16,12 @@ export const dynamic = "force-dynamic";
 const STEPS = [
   { title: "Join free", text: "Sign up in a minute and get your own code and link, e.g. victorsholdings.co.zw/r/TENDAI20." },
   { title: "Share your link", text: "Send it to anyone building — on WhatsApp, Facebook or in person. Your code goes into their WhatsApp chat with us." },
-  { title: "Get paid US$20", text: `When their order is delivered and paid, we pay you by EcoCash or bank within ${PROGRAMME.payoutDays} days.` },
+  { title: "Get paid US$20", text: `When their order is delivered and paid, we send it to your EcoCash within ${PROGRAMME.payoutDays} days.` },
 ];
 
 const TRUST = [
   { title: "See every referral", text: "Your dashboard shows clicks, quote requests, orders and payouts as we record them." },
-  { title: "Proof of every payment", text: "Each payout comes with its EcoCash or bank reference, shown on your dashboard." },
+  { title: "Proof of every payment", text: "Each payout comes with its EcoCash reference, shown on your dashboard." },
   { title: "Fair if we miss one", text: `Tell us within ${PROGRAMME.disputeDays} days and we check the chat and order log within 2 working days.` },
   { title: "Rules in writing", text: "One short set of rules with a version date, and 30 days' notice of any change." },
 ];
@@ -92,9 +92,17 @@ export default function ToraMariPage() {
 
       <section className="section tm-join" id="join">
         <div className="tm-join-grid">
-          <div>
+          <div className="tm-join-head">
+            <span className="tm-badge">
+              <b>Tora Mari</b> · by Victors Holdings
+            </span>
             <h2 className="section-title">Join Tora Mari</h2>
             <p className="muted">Free to join. You&apos;ll get your code and link straight away.</p>
+            <ul className="tm-perks">
+              <li>US${PROGRAMME.reward} per customer</li>
+              <li>Paid to your EcoCash</li>
+              <li>Free, no selling</li>
+            </ul>
           </div>
           <div className="tm-card">
             <SignupForm />

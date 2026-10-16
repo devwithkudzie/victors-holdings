@@ -110,7 +110,7 @@ export async function setStatus(f: FormData) {
   revalidatePath("/admin", "layout");
 }
 
-/** Admin: record the US$20 payment with its EcoCash/bank reference */
+/** Admin: record the US$20 payment with its EcoCash reference */
 export async function recordPayout(f: FormData) {
   const me = await requireStaff("admin");
   const id = Number(f.get("id"));

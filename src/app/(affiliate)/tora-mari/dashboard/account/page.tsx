@@ -36,7 +36,7 @@ export default async function Account() {
           <div>
             <dt>Payout</dt>
             <dd>
-              {a.payoutMethod === "ecocash" ? "EcoCash" : "Bank"} — {a.payoutDetails}
+              EcoCash — {a.payoutDetails}
             </dd>
           </div>
         </dl>

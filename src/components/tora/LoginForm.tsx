@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useActionState } from "react";
 import { login, type FormState } from "@/app/(site)/tora-mari/actions";
+import { whatsappLink } from "@/lib/site";
 
 export function LoginForm() {
   const [state, action, pending] = useActionState<FormState, FormData>(login, undefined);
@@ -16,7 +17,12 @@ export function LoginForm() {
         </span>
       </label>
       <label>
-        Password
+        <span className="tm-row">
+          Password
+          <a href={whatsappLink("Hi Victors Holdings, I've forgotten my Tora Mari password. My WhatsApp number is ")} target="_blank" rel="noopener noreferrer">
+            Forgot it?
+          </a>
+        </span>
         <input name="password" type="password" autoComplete="current-password" required />
       </label>
       {state?.error && <p className="tm-error">{state.error}</p>}

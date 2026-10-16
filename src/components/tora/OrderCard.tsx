@@ -66,7 +66,7 @@ export function OrderCard({ row, role }: { row: Row; role: string }) {
           (role === "admin" ? (
             <form action={recordPayout} className="ad-inline">
               <input type="hidden" name="id" value={r.id} />
-              <input name="reference" placeholder="EcoCash / bank reference" required />
+              <input name="reference" placeholder="EcoCash reference" required />
               <button className="ad-btn primary">Record payout</button>
             </form>
           ) : (

@@ -28,7 +28,7 @@ export const RULES: { title: string; text: string }[] = [
   },
   {
     title: "When you're paid",
-    text: `By EcoCash or bank transfer within ${PROGRAMME.payoutDays} days of the customer's payment. You receive the payment reference every time, and it shows on your dashboard.`,
+    text: `By EcoCash within ${PROGRAMME.payoutDays} days of the customer's payment. You receive the payment reference every time, and it shows on your dashboard.`,
   },
   {
     title: "Missed a referral?",
